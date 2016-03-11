@@ -12,21 +12,27 @@
 			size:root.width/3.1,root.height/5
 			center:555,325
 			group: 'mainmenu'
-			text: 'Consumption Screen'
+			text: 'CONSUMPTION'
+			background_color:(0,0.2890625,0.484375,1.0)
+			background_normal:''
 			on_press: app.manager.current='consumption'
 
 		ToggleButton:
 			size:root.width/3.1,root.height/5
 			center:555,240
+			background_color:(0,0.2890625,0.484375,1.0)
+			background_normal:''
 			group: 'mainmenu'
-			text: 'Locker Screen'
+			text: 'LOCKERS'
 			on_press: app.manager.current='locker'
 
 		ToggleButton:
 			size:root.width/3.1,root.height/5
 			center:555,155
+			background_color:(0,0.2890625,0.484375,1.0)
+			background_normal:''
 			group: 'mainmenu'
-			text: 'About Screen'
+			text: 'ABOUT'
 			on_press: app.manager.current='about'
 
 		Image:
@@ -56,7 +62,7 @@
 <LockerScreen>:
     canvas:
 		Color:
-			rgba:0,1,0,1
+			rgba:1,1,1,0.5
 		Rectangle:
 			size:root.width,root.height
 			pos:0,0
@@ -64,16 +70,17 @@
 <AboutScreen>:
 	canvas:
 		Color:
-			rgba:1,0,0,1
+			rgba:1,1,1,0.6
 		Rectangle:
-			size:root.width/3,root.height
-			pos:535,0
+			size:root.width,root.height
+			pos:0,0
 	
 
 <ConsumptionScreen>:
 	canvas:
 		Color:
-			rgba:0,0,1,1
+			rgba:1,1,1,0.7
 		Rectangle:
-			size:root.width/3,root.height
-			pos:535,0
+			size:root.width,root.height
+			pos:0,0
+
