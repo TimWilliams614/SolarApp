@@ -1,46 +1,51 @@
 <NavBar>:
 
 	Widget:
-		canvas:
+		#navbar backgroumd
+		canvas: 
 			Color:
 				rgba:1,1,1,1
 			Rectangle:
-				size:root.width/3,root.height
-				pos:535,0
+				size:255,480
+				pos:545,0
 
-		ToggleButton:
-			size:root.width/3.1,root.height/5
-			center:555,325
+		#consumption button
+		ToggleButton: 
+			size:255,63
+			pos:545,398
 			group: 'mainmenu'
 			text: 'CONSUMPTION'
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			on_press: app.manager.current='consumption'
 
+		#locker button
 		ToggleButton:
-			size:root.width/3.1,root.height/5
-			center:555,240
+			size:255,63
+			pos:545,331
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			group: 'mainmenu'
 			text: 'LOCKERS'
 			on_press: app.manager.current='locker'
 
+		#about button
 		ToggleButton:
-			size:root.width/3.1,root.height/5
-			center:555,155
+			size:255,63
+			pos:545,263
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			group: 'mainmenu'
 			text: 'ABOUT'
 			on_press: app.manager.current='about'
 
+		#about button
 		Image:
-			size:150,150
-			center:665,75
+			size:188, 188
+			pos:579,38
 			source: 'pic.png'
 			allow_stretch: False
-			keep_ratio: True
+			keep_ratio: False
 
 		
 
@@ -59,28 +64,100 @@
 		allow_stretch: True
 		keep_ratio: True
 
+<ConsumptionScreen>:
+	
+
+	canvas:
+		
+		Color:
+			rgba:.2705,.5843,.811,1
+		Rectangle: #background
+			size:root.width,root.height
+			pos:0,0
+		Color:
+			rgba:1,1,1,1
+		Rectangle: #Battery Rect
+			size:219,197
+			pos:54,244
+		Rectangle: #Devices Rect
+			size:219,197
+			pos:277,244
+		Rectangle: #PowerIn Rect
+			size:219,197
+			pos:54,45
+		Rectangle: #PowerOut Rect
+			size:219,197
+			pos:277,45
+
+	Widget: #Widget to handle text
+		
+		Label: #widget header
+			text:'CONSUMPTION DATA'
+			color:1,1,1,1
+			pos:80,400
+
+		Label: #battery level header
+			text:'BATTERY LEVEL'
+			color: 0.2,0.2,0.2,.43
+			pos:113,330
+
+		Label: #battery level data
+			text:'78%'
+			font_size:40
+			color:0,0,0,.83
+			pos:115,290
+
+		Label:#devices connected header
+			text:'DEVICES CONNECTED'
+			color: 0.2,0.2,0.2,.43
+			pos:335,330
+
+		Label: #devices connected data
+			text:'8 Devices'
+			color:0,0,0,.83
+			pos:332,290
+			font_size:32
+
+		Label:#power in header
+			text:'POWER IN'
+			color: 0.2,0.2,0.2,.43
+			pos:115,150
+
+		Label:#power in data
+			text:'160kw'
+			font_size:40
+			color:0,1,0,1
+			pos:115,100
+
+		Label:#power out header
+			text:'POWER OUT'
+			color: 0.2,0.2,0.2,.43
+			pos:333,150
+
+		Label:#power out data
+			text:'100kw'
+			font_size:40
+			color:0.9,0.1,0.1,1
+			pos:333,100
+	
+
+
 <LockerScreen>:
     canvas:
-		Color:
-			rgba:1,1,1,0.5
+    	Color:
+    		rgba:.2905,.6843,.851,1
 		Rectangle:
 			size:root.width,root.height
 			pos:0,0
+
 	
 <AboutScreen>:
 	canvas:
 		Color:
-			rgba:1,1,1,0.6
+			rgba:.2905,.6843,.911,1
 		Rectangle:
 			size:root.width,root.height
 			pos:0,0
 	
 
-<ConsumptionScreen>:
-	canvas:
-		Color:
-			rgba:1,1,1,0.7
-		Rectangle:
-			size:root.width,root.height
-			pos:0,0
 
