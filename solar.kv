@@ -1,0 +1,79 @@
+<NavBar>:
+
+	Widget:
+		canvas:
+			Color:
+				rgba:1,1,1,1
+			Rectangle:
+				size:root.width/3,root.height
+				pos:535,0
+
+		ToggleButton:
+			size:root.width/3.1,root.height/5
+			center:555,325
+			group: 'mainmenu'
+			text: 'Consumption Screen'
+			on_press: app.manager.current='consumption'
+
+		ToggleButton:
+			size:root.width/3.1,root.height/5
+			center:555,240
+			group: 'mainmenu'
+			text: 'Locker Screen'
+			on_press: app.manager.current='locker'
+
+		ToggleButton:
+			size:root.width/3.1,root.height/5
+			center:555,155
+			group: 'mainmenu'
+			text: 'About Screen'
+			on_press: app.manager.current='about'
+
+		Image:
+			size:150,150
+			center:665,75
+			source: 'pic.png'
+			allow_stretch: False
+			keep_ratio: True
+
+		
+
+<IdleScreen>:
+	on_press: app.manager.current = 'consumption'
+	canvas:
+		Color:
+			rgba:1,1,1,1
+		Rectangle:
+			size:root.size
+			pos:root.pos
+
+	Image:
+		size:root.width/2,root.height/2
+		source: 'pic.png'
+		allow_stretch: True
+		keep_ratio: True
+
+<LockerScreen>:
+    canvas:
+		Color:
+			rgba:0,1,0,1
+		Rectangle:
+			size:root.width,root.height
+			pos:0,0
+	
+<AboutScreen>:
+	canvas:
+		Color:
+			rgba:1,0,0,1
+		Rectangle:
+			size:root.width/3,root.height
+			pos:535,0
+	
+
+<ConsumptionScreen>:
+	canvas:
+		Color:
+			rgba:0,0,1,1
+		Rectangle:
+			size:root.width/3,root.height
+			pos:535,0
