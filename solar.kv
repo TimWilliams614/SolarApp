@@ -1,5 +1,4 @@
 <NavBar>:
-
 	Widget:
 		#navbar backgroumd
 		canvas: 
@@ -41,11 +40,11 @@
 
 		#about button
 		Image:
-			size:188, 188
-			pos:579,38
+			size:220, 280
+			pos:565,-5
 			source: 'pic.png'
 			allow_stretch: False
-			keep_ratio: False
+			keep_ratio: True
 
 		
 
@@ -66,9 +65,7 @@
 
 <ConsumptionScreen>:
 	
-
 	canvas:
-		
 		Color:
 			rgba:.2705,.5843,.811,1
 		Rectangle: #background
@@ -158,6 +155,17 @@
 		Rectangle:
 			size:root.width,root.height
 			pos:0,0
+		Color:
+			rgba:1,1,1,1
+		Rectangle:
+			size:433,390
+			pos:54,52
+
+	Widget: #Widget to handle text
+		Label: #widget header
+			text:'ABOUT'
+			color:1,1,1,1
+			pos:33,400
 	
 
 

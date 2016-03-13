@@ -41,7 +41,7 @@ class AboutScreen(Screen):
 class SolarApp(App):
     
     def build(self):
-        self.manager = ScreenManager() #Kivy Screen Manager object to handle screen transistions
+        self.manager = ScreenManager() #Kivy Screen Manager object to handle screen transistion
     	self.manager.add_widget(IdleScreen(name='idle'))
     	self.manager.add_widget(LockerScreen(name='locker'))
     	self.manager.add_widget(ConsumptionScreen(name='consumption'))
