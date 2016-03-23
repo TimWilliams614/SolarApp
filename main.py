@@ -47,6 +47,7 @@ class SolarApp(App):
     	self.manager.add_widget(ConsumptionScreen(name='consumption'))
     	self.manager.add_widget(AboutScreen(name='about'))
         
+        #float layout to handle manager and navbar
         layout = FloatLayout(size=(800,480))
         layout.add_widget(self.manager)
         layout.add_widget(NavBar(id='my_root',name='root'))
