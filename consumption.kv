@@ -1,0 +1,72 @@
+<ConsumptionScreen>:
+	canvas:
+		Color:
+			rgba:.2705,.5843,.811,1
+		Rectangle: #background
+			size:root.width,root.height
+			pos:0,0
+		Color:
+			rgba:1,1,1,1
+		Rectangle: #Battery Rect
+			size:219,197
+			pos:56,244
+		Rectangle: #Devices Rect
+			size:219,197
+			pos:277,244
+		Rectangle: #PowerIn Rect
+			size:219,197
+			pos:56,45
+		Rectangle: #PowerOut Rect
+			size:219,197
+			pos:277,45
+
+	Widget: #Widget to handle text
+		
+		Label: #widget header
+			text:'CONSUMPTION DATA'
+			color:1,1,1,1
+			pos:80,400
+
+		Label: #battery level header
+			text:'BATTERY LEVEL'
+			color: 0.2,0.2,0.2,.43
+			pos:115,330
+
+		Label: #battery level data
+			text:'78%'
+			font_size:40
+			color:0,0,0,.83
+			pos:117,290
+
+		Label:#devices connected header
+			text:'DEVICES CONNECTED'
+			color: 0.2,0.2,0.2,.43
+			pos:335,330
+
+		Label: #devices connected data
+			text:'8 Devices'
+			color:0,0,0,.83
+			pos:332,290
+			font_size:32
+
+		Label:#power in header
+			text:'POWER IN'
+			color: 0.2,0.2,0.2,.43
+			pos:117,150
+
+		Label:#power in data
+			text:'160kw'
+			font_size:40
+			color:0,1,0,1
+			pos:117,100
+
+		Label:#power out header
+			text:'POWER OUT'
+			color: 0.2,0.2,0.2,.43
+			pos:333,150
+
+		Label:#power out data
+			text:'100kw'
+			font_size:40
+			color:0.9,0.1,0.1,1
+			pos:333,100

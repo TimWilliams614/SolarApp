@@ -1,0 +1,168 @@
+<LockerAccessScreen>
+	canvas:
+    	Color:
+    		rgba:.2905,.6843,.851,1
+		Rectangle:#background
+			size:root.width,root.height
+			pos:0,0
+		Color:
+			rgba:.933,.933,.933,1
+		Rectangle: # locker list rect
+			size:501,125
+			pos:20,320
+		Color:
+			rgba:1,1,1,1
+		Rectangle: #locker info rect
+			size:244,274
+			pos:24,35
+		Rectangle: # 'How to use' rect
+			size:244,274
+			pos:278,35
+
+	Widget:
+
+		Label:#locker list header
+			text:'LOCKER LIST'
+			pos:18,405
+			color:1,1,1,1
+
+		#-- first locker row-- #
+		ToggleButton: #locker 1
+			size:83,40
+			pos:30,390
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+			background_normal:''
+			text:'1'
+		
+		ToggleButton: #locker 2
+			size:83,40
+			pos:131,390
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+			background_normal:''
+			text:'2'
+			
+		ToggleButton: #locker 3
+			size:83,40
+			pos:231,390
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+			background_normal:''
+			text:'3'
+		
+		ToggleButton: #locker 4
+			size:83,40
+			pos:329,390
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+			background_normal:''
+			text:'4'
+		
+		ToggleButton: #locker 5
+			size:83,40
+			pos:424,390
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+		
+			background_normal:''
+			text:'5'
+		#-- end of first row --#
+
+		#-- Second Locker Row -- #
+		ToggleButton: #locker 6
+			size:83,40
+			pos:30,340
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+			background_normal:''
+			text:'6'
+
+		ToggleButton: #locker 7
+			size:83,40
+			pos:131,340
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+			background_normal:''
+			text:'7'
+		
+		ToggleButton: #locker 8
+			size:83,40
+			pos:231,340
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+			background_normal:''
+			text:'8'
+		
+		ToggleButton: #locker 9
+			size:83,40
+			pos:329,340
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+			background_normal:''
+			text:'9'
+		
+		ToggleButton: #locker 10
+			size:83,40
+			pos:424,340
+			group:'lockerList'
+			background_color:(0.576,0.768,.490,1.0)
+			background_normal:''
+			text:'10'
+
+		Label: # Locker Info Header
+			text: 'Locker: '
+			font_size:20
+			color:0,0,0,.66
+			pos:40,225
+
+		Label:#locker number data
+			text:'N/A'
+			pos:94,225
+			color:0,0,0.66
+			font_size:20
+
+		Label: #status header
+			text: 'Status:'
+			pos:35,175
+			font_size:20
+			color:0,0,0,.66
+
+		Label: #status data
+			text:'N/A'
+			pos:90,175
+			font_size:20
+			color:0,0,0,.66
+		
+		Label:
+			text: 'Since: '
+			pos:34,125
+			font_size:20
+			color:0,0,0,.66
+
+		Label: #since data
+			text: 'N/A'
+			pos: 80,125
+			font_size:20
+			color:0,0,0,.66
+
+		Label: #Locker Usage Header
+			text:'Locker Usage and Rules'
+			pos:358,225
+			text_size:230,None
+			font_size:20
+			color:0,0,0,.66
+
+		Label: #Locker Usage Text
+			text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in purus vitae lacus lobortis hendrerit ac sit amet diam. Praesent interdum pellentesque nulla at luctus. Nullam molestie risus nulla, a tincidunt magna rutrum vitae. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin aliquet non est ac pulvinar. '
+			pos:350,110
+			text_size:210,None
+			font_size:13
+			color:0,0,0,.66
+
+		Button:
+			size:165,61
+			pos:62,70
+			background_color:(0,0.2890625,0.484375,1.0)
+			background_normal:''
+			text:'UNLOCK'

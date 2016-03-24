@@ -1,0 +1,14 @@
+<IdleScreen>:
+	on_press: app.manager.current = 'consumption'
+	canvas:
+		Color:
+			rgba:1,1,1,1
+		Rectangle:
+			size:root.size
+			pos:root.pos
+
+	Image:
+		size:root.width/2,root.height/2
+		source: 'pic.png'
+		allow_stretch: True
+		keepratio: True

@@ -10,6 +10,12 @@ from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.config import Config
 
+Builder.load_file('navBar.kv')
+Builder.load_file('idle.kv')
+Builder.load_file('consumption.kv')
+Builder.load_file('lockerInfo.kv')
+Builder.load_file('lockerAccess.kv')
+Builder.load_file('about.kv')
 #---Initial Configuration---#
 Config.set('graphics','borderless','1') #removes border decoration
 Config.set('graphics','height','480') #static height due to tablet constraints
@@ -31,6 +37,9 @@ class ConsumptionScreen(Screen):
 class LockerScreen(Screen):
     pass
 
+class LockerAccessScreen(Screen):
+    pass
+
 class AboutScreen(Screen):
     pass
 #--- End of Definitions ---#
@@ -44,11 +53,13 @@ class SolarApp(App):
         self.manager = ScreenManager() #Kivy Screen Manager object to handle screen transistion
     	self.manager.add_widget(IdleScreen(name='idle'))
     	self.manager.add_widget(LockerScreen(name='locker'))
+        self.manager.add_widget(LockerAccessScreen(name='lockerAccess'))
     	self.manager.add_widget(ConsumptionScreen(name='consumption'))
     	self.manager.add_widget(AboutScreen(name='about'))
-        
-        #float layout to handle manager and navbar
-        layout = FloatLayout(size=(800,480))
+        #self.manager.current = 'lockerAccess'
+        self.manager.current = 'consumption'
+
+        layout = FloatLayout(size=(800,480)) #float layout to handle manager and navbar
         layout.add_widget(self.manager)
         layout.add_widget(NavBar(id='my_root',name='root'))
 

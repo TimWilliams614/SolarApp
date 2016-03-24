@@ -1,0 +1,47 @@
+<NavBar>:
+	Widget:
+		#navbar backgroumd
+		canvas: 
+			Color:
+				rgba:1,1,1,1
+			Rectangle:
+				size:255,480
+				pos:545,0
+
+		#consumption button
+		ToggleButton: 
+			size:255,63
+			pos:545,398
+			group: 'mainmenu'
+			text: 'CONSUMPTION'
+			background_color:(0,0.2890625,0.484375,1.0)
+			background_normal:''
+			on_press: app.manager.current='consumption'
+
+		#locker button
+		ToggleButton:
+			size:255,63
+			pos:545,331
+			background_color:(0,0.2890625,0.484375,1.0)
+			background_normal:''
+			group: 'mainmenu'
+			text: 'LOCKERS'
+			on_press: app.manager.current='locker'
+
+		#about button
+		ToggleButton:
+			size:255,63
+			pos:545,263
+			background_color:(0,0.2890625,0.484375,1.0)
+			background_normal:''
+			group: 'mainmenu'
+			text: 'ABOUT'
+			on_press: app.manager.current='about'
+
+		#about button
+		Image:
+			size:226.308, 230
+			pos:558,16
+			source: 'pic.png'
+			allow_stretch: True
+			keep_ratio: True
