@@ -10,19 +10,21 @@ from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.config import Config
 
+#--load in kv files --#
 Builder.load_file('navBar.kv')
 Builder.load_file('idle.kv')
 Builder.load_file('consumption.kv')
 Builder.load_file('lockerInfo.kv')
 Builder.load_file('lockerAccess.kv')
 Builder.load_file('about.kv')
+#-- end load -- #
+
 #---Initial Configuration---#
 Config.set('graphics','borderless','1') #removes border decoration
 Config.set('graphics','height','480') #static height due to tablet constraints
 Config.set('graphics','width','800') #static width due to tablet constraints
 Config.set('graphics','resizable','0') #Make unresizable so user can't resize or move whole window
 #---End of Configuration---#
-
 
 #--- Widget/Screen Definitions Passed from KV file ---#
 class NavBar(Screen):
@@ -44,9 +46,7 @@ class AboutScreen(Screen):
     pass
 #--- End of Definitions ---#
 
-
 #--- App Builder Class --- #
-
 class SolarApp(App):
     
     def build(self):
@@ -65,7 +65,6 @@ class SolarApp(App):
 
         return layout
 #--- End App Builder ---#
-
 
 #--- Start the App --- #
 if __name__ == '__main__':
