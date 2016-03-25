@@ -9,7 +9,11 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.config import Config
+<<<<<<< HEAD
 from backend import LockerList
+=======
+from kivy.uix.behaviors import ToggleButtonBehavior
+>>>>>>> 237fc97f3f44328de1c0df022611ace0f361d802
 
 #--load in kv files --#
 Builder.load_file('navBar.kv')
@@ -138,10 +142,17 @@ class LockerAccessScreen(Screen):
 class AboutScreen(Screen):
 	pass
 #--- End of Definitions ---#
-
+'''
+def buttonStateCheck(myButton):
+    test = ToggleButtonBehavior.get_widgets(myButton.group)
+    for widget in test:
+        print(widget.state)
+    del test
+'''
 #--- App Builder Class --- #
 class SolarApp(App):
 
+<<<<<<< HEAD
 	def build(self):
 		self.manager = ScreenManager() #Kivy Screen Manager object to handle screen transistion
 		self.manager.add_widget(IdleScreen(name='idle'))
@@ -157,9 +168,46 @@ class SolarApp(App):
 		layout.add_widget(NavBar(id='my_root',name='root'))
 
 		return layout
+=======
+    
+    def build(self):
+        idleScreen = IdleScreen(name='idle')
+        lockerScreen = LockerScreen(name='locker')
+        lockerAccessScreen = LockerAccessScreen(name='lockerAccess')
+        consumptionScreen = ConsumptionScreen(name='consumption')
+        aboutScreen = AboutScreen(name='about')
+        navBar = NavBar(id='my_root',name='root')
+
+        self.manager = ScreenManager() #Kivy Screen Manager object to handle screen transistion
+        self.manager.add_widget(idleScreen)
+    	self.manager.add_widget(lockerScreen)
+        self.manager.add_widget(lockerAccessScreen)
+    	self.manager.add_widget(consumptionScreen)
+    	self.manager.add_widget(aboutScreen)
+        #self.manager.current = 'lockerAccess'
+        self.manager.current = 'consumption'
+       
+        layout = FloatLayout(size=(800,480)) #float layout to handle manager and navbar
+        layout.add_widget(self.manager)
+        layout.add_widget(navBar)
+
+        '''
+        lButton =  navBar.ids['consButton']
+        print(lButton.text)
+        test = ToggleButtonBehavior.get_widgets('mainmenu')
+        for widget in test:
+            print(widget.state)
+        print("test")'''
+        return layout
+>>>>>>> 237fc97f3f44328de1c0df022611ace0f361d802
 #--- End App Builder ---#
 
 #--- Start the App --- #
 if __name__ == '__main__':
+<<<<<<< HEAD
 	SolarApp().run()
 
+=======
+    SolarApp().run()
+    
+>>>>>>> 237fc97f3f44328de1c0df022611ace0f361d802
