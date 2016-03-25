@@ -1,5 +1,5 @@
 0 100 0 0 lam bui
-1 200 0 2 tim williams
+1 200 0 0 tim williams
 2 300 1 0 kian bradley
 3 400 0 0 jesse vick
 4 500 0 0 greg numez

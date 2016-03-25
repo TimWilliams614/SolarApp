@@ -9,11 +9,9 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.config import Config
-<<<<<<< HEAD
+
 from backend import LockerList
-=======
 from kivy.uix.behaviors import ToggleButtonBehavior
->>>>>>> 237fc97f3f44328de1c0df022611ace0f361d802
 
 #--load in kv files --#
 Builder.load_file('navBar.kv')
@@ -31,6 +29,10 @@ Config.set('graphics','width','800') #static width due to tablet constraints
 Config.set('graphics','resizable','0') #Make unresizable so user can't resize or move whole window
 #---End of Configuration---#
 
+#---initiate back end---#
+lockerSys = LockerList()
+#---end of initiation---#
+
 #--- Widget/Screen Definitions Passed from KV file ---#
 class NavBar(Screen):
 	pass
@@ -42,10 +44,13 @@ class ConsumptionScreen(Screen):
 	pass
 
 class LockerScreen(Screen):
-	pass
+	def clickLogin(self):
+		lockerSys.login(1)
+		self.parent
+		self.manager.current = 'lockerAccess'
 
 class LockerAccessScreen(Screen):
-	lockerSys = LockerList()
+	#lockerSys = LockerList()
 	lockerIndex = -1
 
 	def controlFlow(self, Input, output1, output2, output3):
@@ -57,7 +62,7 @@ class LockerAccessScreen(Screen):
 			return output3
 
 	def backgroundState(self, lockerID):
-		Input = self.lockerSys.lockerState(lockerID)
+		Input = lockerSys.lockerState(lockerID)
 		output1 = [0,0,1,0.66] #available
 		output2 = [1,0,0,1] #locked
 		output3 = [0.576,0.768,.490,1.0] #owned
@@ -72,15 +77,14 @@ class LockerAccessScreen(Screen):
 			tButton.background_color = self.backgroundState(int(tButton.text)-1)
 			
 	def lockerClick(self, toggleButton, lockerID):
-		self.lockerSys.updateUserTable()
+		lockerSys.updateUserTable()
 		self.lockerIndex = lockerID
-		self.lockerSys.login(1)
 		self.updateAll()
 		#update labelName
-		self.ids.labelName.text = str(self.lockerSys.lockerList[lockerID].id + 1)
+		self.ids.labelName.text = str(lockerSys.lockerList[lockerID].id + 1)
 
 		#update labelStatus text
-		Input = self.lockerSys.lockerState(lockerID)
+		Input = lockerSys.lockerState(lockerID)
 		output1 = 'Available'
 		output2 = 'Locked'
 		output3 = 'Owned'
@@ -94,7 +98,7 @@ class LockerAccessScreen(Screen):
 		#update labelTime
 		self.ids.labelTime.text = 'N\A'
 
-		if self.lockerSys.userTable.userList[self.lockerSys.userIndex].lockerCount < self.lockerSys.limit:
+		if lockerSys.userTable.userList[lockerSys.userIndex].lockerCount < lockerSys.limit:
 			#update action_button text
 			output1 = 'Unlock'
 			output2 = 'Unavailable'
@@ -118,15 +122,15 @@ class LockerAccessScreen(Screen):
 			self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
 
 
-		self.lockerSys.lockerList[lockerID].display()
+		lockerSys.lockerList[lockerID].display()
 		self.locker = toggleButton
 
 	def actionClick(self):
 		if self.lockerIndex != -1:
-			self.lockerSys.chooseLocker(self.lockerIndex)
+			lockerSys.chooseLocker(self.lockerIndex)
 			self.locker.background_color = self.backgroundState(self.lockerIndex)
 
-			Input = self.lockerSys.lockerState(self.lockerIndex)
+			Input = lockerSys.lockerState(self.lockerIndex)
 			#update labelStatus text
 			output1 = 'Available'
 			output2 = 'Locked'
@@ -151,8 +155,6 @@ def buttonStateCheck(myButton):
 '''
 #--- App Builder Class --- #
 class SolarApp(App):
-
-<<<<<<< HEAD
 	def build(self):
 		self.manager = ScreenManager() #Kivy Screen Manager object to handle screen transistion
 		self.manager.add_widget(IdleScreen(name='idle'))
@@ -168,46 +170,8 @@ class SolarApp(App):
 		layout.add_widget(NavBar(id='my_root',name='root'))
 
 		return layout
-=======
-    
-    def build(self):
-        idleScreen = IdleScreen(name='idle')
-        lockerScreen = LockerScreen(name='locker')
-        lockerAccessScreen = LockerAccessScreen(name='lockerAccess')
-        consumptionScreen = ConsumptionScreen(name='consumption')
-        aboutScreen = AboutScreen(name='about')
-        navBar = NavBar(id='my_root',name='root')
-
-        self.manager = ScreenManager() #Kivy Screen Manager object to handle screen transistion
-        self.manager.add_widget(idleScreen)
-    	self.manager.add_widget(lockerScreen)
-        self.manager.add_widget(lockerAccessScreen)
-    	self.manager.add_widget(consumptionScreen)
-    	self.manager.add_widget(aboutScreen)
-        #self.manager.current = 'lockerAccess'
-        self.manager.current = 'consumption'
-       
-        layout = FloatLayout(size=(800,480)) #float layout to handle manager and navbar
-        layout.add_widget(self.manager)
-        layout.add_widget(navBar)
-
-        '''
-        lButton =  navBar.ids['consButton']
-        print(lButton.text)
-        test = ToggleButtonBehavior.get_widgets('mainmenu')
-        for widget in test:
-            print(widget.state)
-        print("test")'''
-        return layout
->>>>>>> 237fc97f3f44328de1c0df022611ace0f361d802
 #--- End App Builder ---#
 
 #--- Start the App --- #
 if __name__ == '__main__':
-<<<<<<< HEAD
 	SolarApp().run()
-
-=======
-    SolarApp().run()
-    
->>>>>>> 237fc97f3f44328de1c0df022611ace0f361d802
