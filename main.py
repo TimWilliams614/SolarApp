@@ -9,6 +9,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.config import Config
+from backend import LockerList
 
 #--load in kv files --#
 Builder.load_file('navBar.kv')
@@ -20,7 +21,7 @@ Builder.load_file('about.kv')
 #-- end load -- #
 
 #---Initial Configuration---#
-Config.set('graphics','borderless','1') #removes border decoration
+Config.set('graphics','border','1') #removes border decoration
 Config.set('graphics','height','480') #static height due to tablet constraints
 Config.set('graphics','width','800') #static width due to tablet constraints
 Config.set('graphics','resizable','0') #Make unresizable so user can't resize or move whole window
@@ -31,42 +32,134 @@ class NavBar(Screen):
 	pass
 
 class IdleScreen(ButtonBehavior,Screen):
-    pass
+	pass
 
 class ConsumptionScreen(Screen):
-    pass
+	pass
 
 class LockerScreen(Screen):
-    pass
+	pass
 
 class LockerAccessScreen(Screen):
-    pass
+	lockerSys = LockerList()
+	lockerIndex = -1
+
+	def controlFlow(self, Input, output1, output2, output3):
+		if Input == 0:
+			return output1
+		if Input == 1:
+			return output2
+		if Input == 2:
+			return output3
+
+	def backgroundState(self, lockerID):
+		Input = self.lockerSys.lockerState(lockerID)
+		output1 = [0,0,1,0.66] #available
+		output2 = [1,0,0,1] #locked
+		output3 = [0.576,0.768,.490,1.0] #owned
+		return self.controlFlow(Input, output1, output2, output3)
+
+	def updateAll(self):
+		tButtonArray = [] #tButton = toggleButton
+		for i in range(10):
+			tButtonArray.append("locker" + str(i+1))
+		for i in range(10):
+			tButton = self.ids[tButtonArray[i]]
+			tButton.background_color = self.backgroundState(int(tButton.text)-1)
+			
+	def lockerClick(self, toggleButton, lockerID):
+		self.lockerSys.updateUserTable()
+		self.lockerIndex = lockerID
+		self.lockerSys.login(1)
+		self.updateAll()
+		#update labelName
+		self.ids.labelName.text = str(self.lockerSys.lockerList[lockerID].id + 1)
+
+		#update labelStatus text
+		Input = self.lockerSys.lockerState(lockerID)
+		output1 = 'Available'
+		output2 = 'Locked'
+		output3 = 'Owned'
+		self.ids.labelStatus.text = self.controlFlow(Input, output1, output2, output3)
+		#update labelStatus color
+		output1 = [0,0,1,1]
+		output2 = [1,0,0,1]
+		output3 = [0,1,0,1]
+		self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
+
+		#update labelTime
+		self.ids.labelTime.text = 'N\A'
+
+		if self.lockerSys.userTable.userList[self.lockerSys.userIndex].lockerCount < self.lockerSys.limit:
+			#update action_button text
+			output1 = 'Unlock'
+			output2 = 'Unavailable'
+			output3 = 'Unlock'
+			self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
+			#update action_button color
+			output1 = [0,0.2890625,0.484375,1.0]
+			output2 = [0.0,0.0,0.0,0.8]
+			output3 = [0,0.2890625,0.484375,1.0]
+			self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
+		else:
+			#update action_button text
+			output1 = 'Over locker limit!'
+			output2 = 'Unavailable'
+			output3 = 'Unlock'
+			self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
+			#update action_button color
+			output1 = [0.0,0.0,0.0,0.8]
+			output2 = [0.0,0.0,0.0,0.8]
+			output3 = [0,0.2890625,0.484375,1.0]
+			self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
+
+
+		self.lockerSys.lockerList[lockerID].display()
+		self.locker = toggleButton
+
+	def actionClick(self):
+		if self.lockerIndex != -1:
+			self.lockerSys.chooseLocker(self.lockerIndex)
+			self.locker.background_color = self.backgroundState(self.lockerIndex)
+
+			Input = self.lockerSys.lockerState(self.lockerIndex)
+			#update labelStatus text
+			output1 = 'Available'
+			output2 = 'Locked'
+			output3 = 'Owned'
+			self.ids.labelStatus.text = self.controlFlow(Input, output1, output2, output3)
+			#update labelStatus color
+			output1 = [0,0,1,1]
+			output2 = [1,0,0,1]
+			output3 = [0,1,0,1]
+			self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
+
 
 class AboutScreen(Screen):
-    pass
+	pass
 #--- End of Definitions ---#
 
 #--- App Builder Class --- #
 class SolarApp(App):
-    
-    def build(self):
-        self.manager = ScreenManager() #Kivy Screen Manager object to handle screen transistion
-    	self.manager.add_widget(IdleScreen(name='idle'))
-    	self.manager.add_widget(LockerScreen(name='locker'))
-        self.manager.add_widget(LockerAccessScreen(name='lockerAccess'))
-    	self.manager.add_widget(ConsumptionScreen(name='consumption'))
-    	self.manager.add_widget(AboutScreen(name='about'))
-        #self.manager.current = 'lockerAccess'
-        self.manager.current = 'consumption'
 
-        layout = FloatLayout(size=(800,480)) #float layout to handle manager and navbar
-        layout.add_widget(self.manager)
-        layout.add_widget(NavBar(id='my_root',name='root'))
+	def build(self):
+		self.manager = ScreenManager() #Kivy Screen Manager object to handle screen transistion
+		self.manager.add_widget(IdleScreen(name='idle'))
+		self.manager.add_widget(LockerScreen(name='locker'))
+		self.manager.add_widget(LockerAccessScreen(name='lockerAccess'))
+		self.manager.add_widget(ConsumptionScreen(name='consumption'))
+		self.manager.add_widget(AboutScreen(name='about'))
+		#self.manager.current = 'lockerAccess'
+		self.manager.current = 'consumption'
 
-        return layout
+		layout = FloatLayout(size=(800,480)) #float layout to handle manager and navbar
+		layout.add_widget(self.manager)
+		layout.add_widget(NavBar(id='my_root',name='root'))
+
+		return layout
 #--- End App Builder ---#
 
 #--- Start the App --- #
 if __name__ == '__main__':
-    SolarApp().run()
+	SolarApp().run()
 

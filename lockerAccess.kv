@@ -20,7 +20,7 @@
 			pos:278,35
 
 	Widget:
-
+		id: main_widget
 		Label:#locker list header
 			text:'LOCKER LIST'
 			pos:18,405
@@ -28,130 +28,152 @@
 
 		#-- first locker row-- #
 		ToggleButton: #locker 1
+			id: locker1
 			size:83,40
 			pos:30,390
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
 			background_normal:''
 			text:'1'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 		
 		ToggleButton: #locker 2
+			id: locker2
 			size:83,40
 			pos:131,390
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
 			background_normal:''
 			text:'2'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 			
 		ToggleButton: #locker 3
+			id: locker3
 			size:83,40
 			pos:231,390
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
 			background_normal:''
 			text:'3'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 		
 		ToggleButton: #locker 4
+			id: locker4
 			size:83,40
 			pos:329,390
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
 			background_normal:''
 			text:'4'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 		
 		ToggleButton: #locker 5
+			id: locker5
 			size:83,40
 			pos:424,390
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
-		
 			background_normal:''
 			text:'5'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 		#-- end of first row --#
 
 		#-- Second Locker Row -- #
 		ToggleButton: #locker 6
+			id: locker6
 			size:83,40
 			pos:30,340
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
 			background_normal:''
 			text:'6'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 
 		ToggleButton: #locker 7
+			id: locker7
 			size:83,40
 			pos:131,340
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
 			background_normal:''
 			text:'7'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 		
 		ToggleButton: #locker 8
+			id: locker8
 			size:83,40
 			pos:231,340
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
 			background_normal:''
 			text:'8'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 		
 		ToggleButton: #locker 9
+			id: locker9
 			size:83,40
 			pos:329,340
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
 			background_normal:''
 			text:'9'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 		
 		ToggleButton: #locker 10
+			id: locker10
 			size:83,40
 			pos:424,340
 			group:'lockerList'
-			background_color:(0.576,0.768,.490,1.0)
 			background_normal:''
 			text:'10'
+			background_color:root.backgroundState(int(self.text)-1)
+			on_press:root.lockerClick(self, int(self.text)-1)
 
 		Label: # Locker Info Header
 			text: 'Locker: '
-			font_size:20
-			color:0,0,0,.66
 			pos:40,225
+			font_size:20
+			color:0,0,0,1
 
 		Label:#locker number data
+			id: labelName
 			text:'N/A'
-			pos:94,225
-			color:0,0,0.66
+			pos:120,225
+			color:0.6,0.2,0,1
 			font_size:20
 
 		Label: #status header
 			text: 'Status:'
 			pos:35,175
 			font_size:20
-			color:0,0,0,.66
+			color:0,0,0,1
 
 		Label: #status data
+			id:labelStatus
 			text:'N/A'
-			pos:90,175
+			pos:120,175
 			font_size:20
-			color:0,0,0,.66
+			color:0,0,0,0.66
 		
 		Label:
 			text: 'Since: '
 			pos:34,125
 			font_size:20
-			color:0,0,0,.66
+			color:0,0,0,1
 
 		Label: #since data
+			id:labelTime
 			text: 'N/A'
-			pos: 80,125
+			pos: 120,125
 			font_size:20
-			color:0,0,0,.66
+			color:0,0,0,0.66
 
 		Label: #Locker Usage Header
 			text:'Locker Usage and Rules'
 			pos:358,225
 			text_size:230,None
 			font_size:20
-			color:0,0,0,.66
+			color:0,0,0,1
 
 		Label: #Locker Usage Text
 			text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in purus vitae lacus lobortis hendrerit ac sit amet diam. Praesent interdum pellentesque nulla at luctus. Nullam molestie risus nulla, a tincidunt magna rutrum vitae. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin aliquet non est ac pulvinar. '
@@ -161,8 +183,10 @@
 			color:0,0,0,.66
 
 		Button:
+			id: action_button
 			size:165,61
 			pos:62,70
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
-			text:'UNLOCK'
+			text:'Unlock'
+			on_press:root.actionClick()
