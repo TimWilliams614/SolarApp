@@ -87,6 +87,7 @@ class LockerAccessScreen(Screen):
 		output3 = [0,1,0,1]
 		self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
 
+
 		#update labelTime
 		self.ids.labelTime.text = 'N\A'
 
