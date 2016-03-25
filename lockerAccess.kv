@@ -15,27 +15,28 @@
 			rgba:1,1,1,1
 		Rectangle: #locker info rect
 			size:244,274
-			pos:24,35
+			pos:20,35
 		Rectangle: # 'How to use' rect
 			size:244,274
 			pos:278,35
 
 	Widget:
 		id: main_widget
-		Label:#locker list header
-			text:'LOCKER LIST'
-			pos:18,405
-			color:1,1,1,1
-
-		Label:#User header
-			text:'USER: '
-			pos:400,405
-			color:1,1,1,1
-
 		Label:#User number data
 			id: labelUser
 			text:'N/A'
-			pos:442,405
+			pos:20,405
+			color:1,1,1,1
+
+		Label:#locker list header
+			text:'LOCKER LIST'
+			pos:225,405
+			color:1,1,1,1
+
+		Label:#clock
+			id:clockTime
+			text:""
+			pos:435,405
 			color:1,1,1,1
 
 		#-- first locker row-- #
@@ -196,8 +197,8 @@
 
 		Button:
 			id: action_button
-			size:165,61
-			pos:62,70
+			size:164,61
+			pos:60,70
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			text:'Unlock'

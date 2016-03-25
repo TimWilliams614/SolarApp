@@ -8,7 +8,7 @@
 		Color:
 			rgba:1,1,1,1
 		Rectangle:
-			size:515,142
+			size:515,133
 			pos:16,312
 		Rectangle:
 			size:254,123
@@ -17,10 +17,16 @@
 			size:254,123
 			pos:276,183
 	Widget:
+		Label:#clock
+			id:clockTime
+			text:""
+			pos:435,405
+			color:1,1,1,1
+
 		Label: #Locker Header
 			text:'Locker Information'
 			color:0,0,0,.66
-			pos:222,380
+			pos:222,371
 			font_size:24
 		Label: #Locker Information
 			text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in purus vitae lacus lobortis hendrerit ac sit amet diam. Praesent interdum pellentesque nulla at luctus. Nullam molestie risus nulla, a tincidunt magna rutrum vitae. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin aliquet non est ac pulvinar. '
@@ -28,14 +34,15 @@
 			font_size:13
 			line_height:1.1
 			text_size:440,None
-			pos:218,318
+			pos:218,309
 		Label:#Available Header
 			text:'AVAILABLE'
 			pos:97,220
 			font_size:14
 			color:0,0,0,.66
 		Label:#Available Data
-			text:'8'
+			id:available_locker
+			text:root.availableCount()
 			font_size:34
 			pos:95,190
 			color:.2,.9,.2,.83
@@ -47,7 +54,8 @@
 			font_size:14
 
 		Label:#Used Data
-			text:'2'
+			id:unavailable_locker
+			text:root.unavailableCount()
 			font_size:34
 			pos:345,190
 			color:0.9,0.1,0.1,.83
@@ -58,5 +66,6 @@
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			group: 'LockerScreen'
-			text: 'ACCESS LOCKERS'
+			text: 'Wipe card to login.'
+			font_size: 25
 			on_press:root.clickLogin()

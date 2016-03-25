@@ -1,6 +1,6 @@
 from termcolor import colored
 from .User2 import *
-from time import gmtime, strftime
+from time import gmtime, strftime, localtime
 import os
 
 class Locker:
@@ -158,7 +158,7 @@ class LockerList:
 		else:
 			if action != '':
 				openFile = open(fileName, 'a') 
-				dateTimeStr = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+				dateTimeStr = strftime("%Y-%m-%d %H:%M:%S", localtime())
 				outputStr = dateTimeStr + " " + str(self.currentUser) + " " + str(self.userStatus) + " "
 				outputStr += str(lockerID) + " " + str(lockerOwner) + " "
 				outputStr += action + "\n"

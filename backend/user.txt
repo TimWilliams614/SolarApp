@@ -1,6 +1,6 @@
-0 100 0 0 lam bui
-1 200 0 0 tim williams
-2 300 1 0 kian bradley
-3 400 0 0 jesse vick
-4 500 0 0 greg numez
-5 600 0 0 juan
+0 100 0 0 Lam Bui
+1 200 0 0 Tim Williams
+2 300 1 0 Kian Bradley
+3 400 0 0 Jesse Vick
+4 500 0 0 Greg Numez
+5 600 0 0 Juan De Simon

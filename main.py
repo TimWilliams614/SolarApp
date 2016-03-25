@@ -9,8 +9,10 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.config import Config
+from kivy.clock import Clock
 
 from backend import LockerList
+from time import gmtime, strftime, localtime
 from kivy.uix.behaviors import ToggleButtonBehavior
 
 #--load in kv files --#
@@ -45,9 +47,30 @@ class ConsumptionScreen(Screen):
 
 class LockerScreen(Screen):
 	def clickLogin(self):
-		lockerSys.login(1)
+		if lockerSys.currentUser == -1:
+			lockerSys.login(1)
+		else:
+			lockerSys.login((lockerSys.currentUser+1)%6)
 		self.parent
+		self.manager.get_screen('lockerAccess').updateAll()
+		self.manager.get_screen('lockerAccess').ids.labelUser.text = str(lockerSys.userTable.userList[lockerSys.userIndex].name)
 		self.manager.current = 'lockerAccess'
+
+	def updateAll(self):
+		self.ids.available_locker.text = self.availableCount() 
+		self.ids.unavailable_locker.text = self.unavailableCount()
+
+	def availableCount(self):
+		count = 0
+		for element in lockerSys.lockerList:
+			if element.state == 0: count += 1
+		return str(count)
+	def unavailableCount(self):
+		count = 0
+		for element in lockerSys.lockerList:
+			if element.state == 1: count += 1
+		return str(count)
+
 
 class LockerAccessScreen(Screen):
 	#lockerSys = LockerList()
@@ -82,7 +105,6 @@ class LockerAccessScreen(Screen):
 		self.updateAll()
 		#update labelName
 		self.ids.labelName.text = str(lockerSys.lockerList[lockerID].id + 1)
-
 		#update labelStatus text
 		Input = lockerSys.lockerState(lockerID)
 		output1 = 'Available'
@@ -94,10 +116,9 @@ class LockerAccessScreen(Screen):
 		output2 = [1,0,0,1]
 		output3 = [0,1,0,1]
 		self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
-
 		#update labelTime
 		self.ids.labelTime.text = 'N\A'
-
+		#update action_button
 		if lockerSys.userTable.userList[lockerSys.userIndex].lockerCount < lockerSys.limit:
 			#update action_button text
 			output1 = 'Unlock'
@@ -120,16 +141,17 @@ class LockerAccessScreen(Screen):
 			output2 = [0.0,0.0,0.0,0.8]
 			output3 = [0,0.2890625,0.484375,1.0]
 			self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
-
-
 		lockerSys.lockerList[lockerID].display()
 		self.locker = toggleButton
 
 	def actionClick(self):
 		if self.lockerIndex != -1:
 			lockerSys.chooseLocker(self.lockerIndex)
-			self.locker.background_color = self.backgroundState(self.lockerIndex)
 
+			#update locker info from 'locker' screen
+			self.manager.get_screen('locker').updateAll()
+
+			self.locker.background_color = self.backgroundState(self.lockerIndex)
 			Input = lockerSys.lockerState(self.lockerIndex)
 			#update labelStatus text
 			output1 = 'Available'
@@ -168,8 +190,26 @@ class SolarApp(App):
 		layout = FloatLayout(size=(800,480)) #float layout to handle manager and navbar
 		layout.add_widget(self.manager)
 		layout.add_widget(NavBar(id='my_root',name='root'))
-
+		Clock.schedule_interval(self.displayTime, 1)
 		return layout
+
+	#---clock function---#
+	#show current time in format 24-hour:min:sec
+	def displayTime(self, dt):
+		AM_PM = ''
+		hour = strftime("%H", localtime())
+		if int(hour) < 12 or int(hour) == 24: 
+			AM_PM = 'AM'
+			hour = str(int(hour)%12)
+		else:
+			AM_PM = 'PM'
+			if hour != '12': hour = str(int(hour)%12)
+		minute = strftime("%M", localtime())
+		TimeStr = hour + ":" + minute + " " + AM_PM
+		self.manager.get_screen('locker').ids.clockTime.text = TimeStr
+		self.manager.get_screen('lockerAccess').ids.clockTime.text = TimeStr
+		self.manager.get_screen('consumption').ids.clockTime.text = TimeStr
+		self.manager.get_screen('about').ids.clockTime.text = TimeStr
 #--- End App Builder ---#
 
 #--- Start the App --- #
