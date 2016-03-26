@@ -1,10 +1,10 @@
 <ConsumptionScreen>:
+	canvas.before:
+		Rectangle:
+			size:545,480
+			source: 'images/background.png'
 	canvas:
-		Color:
-			rgba:.2705,.5843,.811,1
-		Rectangle: #background
-			size:root.width,root.height
-			pos:0,0
+		
 		Color:
 			rgba:1,1,1,1
 		Rectangle: #Battery Rect
@@ -30,7 +30,7 @@
 		Label:#clock
 			id:clockTime
 			text:""
-			pos:435,405
+			pos:415,405
 			color:1,1,1,1
 
 		Label: #battery level header

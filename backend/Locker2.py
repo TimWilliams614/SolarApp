@@ -1,4 +1,3 @@
-from termcolor import colored
 from .User2 import *
 from time import gmtime, strftime, localtime
 import os
@@ -63,18 +62,18 @@ class LockerList:
 		self.limit = 2 #max locker per user
 
 	def display(self):
-		print("\nuserID: ", self.currentUser, ", status: ", colored(self.userStatus, 'yellow'))
+		print("\nuserID: ", self.currentUser, ", status: ", self.userStatus, 'yellow')
 		if self.currentUser != -1:
 			for element in self.lockerList:
 					if element.state == 1:
 						if element.owner == self.currentUser:
-							print("locker name: ", element.id, "owner: ", element.owner, colored(", state: owned", "green"))
+							print("locker name: ", element.id, "owner: ", element.owner, ", state: owned", "green")
 						else:
-							print("locker name: ", element.id, "owner: ", element.owner, colored(", state: locked", 'red'))
+							print("locker name: ", element.id, "owner: ", element.owner, ", state: locked", 'red')
 					else:
 						print("locker name: ", element.id, "owner: ", element.owner, ", state: available")
 		else:
-			print(colored("no display\n", 'red'))
+			print("no display\n", 'red')
 
 	def lockerState(self, lockerID): # this returns: 0 = available, 1 = locked, 2 = owned
 		state = self.lockerList[lockerID].state
@@ -122,14 +121,14 @@ class LockerList:
 					self.lockerList[lockerPosition].lock(i)
 					action = 'lock'
 				else:
-					print(colored('you are owning maximum amount of lockers', 'red'))
+					print('you are owning maximum amount of lockers', 'red')
 			else:
 				if self.lockerList[lockerPosition].owner == self.currentUser: #if locked locker is owned by user
 					self.lockerList[lockerPosition].unlock()
 					action = 'unlock'
 				else:
 					if self.userStatus != 1: #not a super user
-						print(colored('you cannot interact with this locker', 'red'))
+						print('you cannot interact with this locker', 'red')
 					else: #if it is super user
 						self.lockerList[lockerPosition].unlock()
 						action = 'super-unlock'

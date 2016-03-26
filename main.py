@@ -25,7 +25,7 @@ Builder.load_file('about.kv')
 #-- end load -- #
 
 #---Initial Configuration---#
-Config.set('graphics','border','1') #removes border decoration
+Config.set('graphics','borderless','1') #removes border decoration
 Config.set('graphics','height','480') #static height due to tablet constraints
 Config.set('graphics','width','800') #static width due to tablet constraints
 Config.set('graphics','resizable','0') #Make unresizable so user can't resize or move whole window
@@ -86,9 +86,9 @@ class LockerAccessScreen(Screen):
 
 	def backgroundState(self, lockerID):
 		Input = lockerSys.lockerState(lockerID)
-		output1 = [0,0,1,0.66] #available
-		output2 = [1,0,0,1] #locked
-		output3 = [0.576,0.768,.490,1.0] #owned
+		output1 = [0,0,1,0.66] #available color
+		output2 = [0.878,0.4,0.4,1.0] #locked color
+		output3 = [0.576,0.768,.490,1.0] #owned color
 		return self.controlFlow(Input, output1, output2, output3)
 
 	def updateAll(self):
@@ -104,19 +104,23 @@ class LockerAccessScreen(Screen):
 		if self.lockerIndex != -1:
 			#update labelName
 			self.ids.labelName.text = str(lockerSys.lockerList[self.lockerIndex].id + 1)
+
 			#update labelStatus text
 			Input = lockerSys.lockerState(self.lockerIndex)
 			output1 = 'Available'
 			output2 = 'Locked'
 			output3 = 'Owned'
 			self.ids.labelStatus.text = self.controlFlow(Input, output1, output2, output3)
+
 			#update labelStatus color
 			output1 = [0,0,1,1]
 			output2 = [1,0,0,1]
 			output3 = [0,1,0,1]
 			self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
+
 			#update labelTime
 			self.ids.labelTime.text = lockerSys.lockerList[self.lockerIndex].lockTime
+
 			#update action_button
 			if lockerSys.userTable.userList[lockerSys.userIndex].lockerCount < lockerSys.limit:
 				#update action_button text
@@ -124,6 +128,7 @@ class LockerAccessScreen(Screen):
 				output2 = 'Unavailable'
 				output3 = 'Unlock'
 				self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
+
 				#update action_button color
 				output1 = [0,0.2890625,0.484375,1.0]
 				output2 = [0.0,0.0,0.0,0.8]
@@ -131,7 +136,7 @@ class LockerAccessScreen(Screen):
 				self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
 			else:
 				#update action_button text
-				output1 = 'Over locker limit!'
+				output1 = 'Over Locker Limit'
 				output2 = 'Unavailable'
 				output3 = 'Unlock'
 				self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
@@ -151,7 +156,7 @@ class LockerAccessScreen(Screen):
 			self.ids.labelTime.text = 'N\A'
 			#update action_button
 			self.ids.action_button.background_color = [0.0,0.0,0.0,0.8]
-			self.ids.action_button.text = 'Choose a locker!'
+			self.ids.action_button.text = 'Choose a Locker'
 			
 	def lockerClick(self, toggleButton, lockerID):
 		lockerSys.updateUserTable()
