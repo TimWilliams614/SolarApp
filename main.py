@@ -37,7 +37,34 @@ lockerSys = LockerList()
 
 #--- Widget/Screen Definitions Passed from KV file ---#
 class NavBar(Screen):
-	pass
+
+	#make consumption button "untogglable" if on consumption page
+	def consPress(self,appManager):
+		if appManager != 'consumption':
+			self.ids.consumption.state = 'down'
+			return 'consumption'
+		else: 
+			self.ids.consumption.state = 'down'
+			return appManager
+
+	#make locker button "unogglable" if on locker page
+	def lockPress(self,appManager):
+		if appManager != 'locker':
+			self.ids.locker.state = 'down'
+			return 'locker'
+		else: 
+			self.ids.locker.state = 'down'
+			return appManager
+
+	#make about button "untogglable" if on locker page
+	def aboutPress(self,appManager):
+		if appManager != 'about':
+			self.ids.about.state = 'down'
+			return 'about'
+		else: 
+			self.ids.about.state = 'down'
+			return appManager
+	
 
 class IdleScreen(ButtonBehavior,Screen):
 	pass
@@ -233,13 +260,7 @@ class LockerAccessScreen(Screen):
 class AboutScreen(Screen):
 	pass
 #--- End of Definitions ---#
-'''
-def buttonStateCheck(myButton):
-    test = ToggleButtonBehavior.get_widgets(myButton.group)
-    for widget in test:
-        print(widget.state)
-    del test
-'''
+
 #--- App Builder Class --- #
 class SolarApp(App):
 	def build(self):

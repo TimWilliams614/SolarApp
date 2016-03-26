@@ -10,7 +10,7 @@
 
 		#consumption button
 		ToggleButton: 
-			id: consButton
+			id: consumption
 			size:255,63
 			pos:545,398
 			group: 'mainmenu'
@@ -18,29 +18,28 @@
 			text: 'CONSUMPTION'
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
-			on_press: app.manager.current='consumption'
-
+			on_press: app.manager.current = root.consPress(app.manager.current)
 		#locker button
 		ToggleButton:
-			id: lockButton
+			id: locker
 			size:255,63
 			pos:545,331
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			group: 'mainmenu'
 			text: 'LOCKERS'
-			on_press: app.manager.current='locker'
+			on_press: app.manager.current = root.lockPress(app.manager.current)
 
 		#about button
 		ToggleButton:
-			id: aboutButton
+			id: about
 			size:255,63
 			pos:545,263
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			group: 'mainmenu'
 			text: 'ABOUT'
-			on_press: app.manager.current='about'
+			on_press: app.manager.current = root.aboutPress(app.manager.current)
 
 		#about button
 		Image:
