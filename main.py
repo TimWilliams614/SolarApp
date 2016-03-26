@@ -113,7 +113,7 @@ class LockerAccessScreen(Screen):
 
 	def backgroundState(self, lockerID):
 		Input = lockerSys.lockerState(lockerID)
-		output1 = [0,0,1,0.66] #available color
+		output1 = [0,0.2890625,0.484375,1.0]#available color
 		output2 = [0.878,0.4,0.4,1.0] #locked color
 		output3 = [0.576,0.768,.490,1.0] #owned color
 		return self.controlFlow(Input, output1, output2, output3)
@@ -140,9 +140,9 @@ class LockerAccessScreen(Screen):
 			self.ids.labelStatus.text = self.controlFlow(Input, output1, output2, output3)
 
 			#update labelStatus color
-			output1 = [0,0,1,1]
-			output2 = [1,0,0,1]
-			output3 = [0,1,0,1]
+			output1 = [0,0.2890625,0.484375,1.0]#available color
+			output2 = [0.878,0.4,0.4,1.0] #locked color
+			output3 = [0.576,0.768,.490,1.0] #owned color
 			self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
 
 			#update labelTime

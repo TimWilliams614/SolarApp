@@ -1,2 +1,10 @@
 year-month-day hour-min-sec currentUser currentUserStatus lockerID lockerOwner action
 
+2016-03-26 00:55:18 3 0 9 -1 lock
+2016-03-26 00:55:18 3 0 9 3 unlock
+2016-03-26 00:55:19 3 0 9 -1 lock
+2016-03-26 00:55:20 3 0 9 3 unlock
+2016-03-26 00:55:20 3 0 9 -1 lock
+2016-03-26 00:55:21 3 0 9 3 unlock
+2016-03-26 00:55:22 3 0 9 -1 lock
+2016-03-26 00:55:32 3 0 9 3 unlock
