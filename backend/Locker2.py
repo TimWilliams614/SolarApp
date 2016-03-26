@@ -12,6 +12,8 @@ class Locker:
 		self.state = 0 #0 = available, 1 = locked
 		self.userTable = UserList()
 		self.owner = -1
+		self.lockTime = 'N\A'
+		self.lockDuration = 0
 		Locker.lockerCount += 1
 
 	def display(self):
@@ -27,6 +29,7 @@ class Locker:
 		#print(self.userTable.userList[userIndex].lockerCount)
 		self.userTable.userList[userIndex].lockerCount += 1
 		self.userTable.writeData(self.userTable.dataFile)
+		self.lockTime = strftime("%H:%M:%S", localtime())
 
 	def unlock(self):
 		self.updateUserTable()
@@ -37,6 +40,8 @@ class Locker:
 				break
 		self.owner = -1
 		self.userTable.writeData(self.userTable.dataFile)
+		self.lockDuration = 0
+		self.lockTime = 'N\A'
 
 def createLockerList(lockerAmount):
 	lockerArray = []
@@ -132,10 +137,11 @@ class LockerList:
 			self.recordLog(self.logFile, lockerID, lockerOwner, action)
 
 	def writeData(self, fileName):
+		#id state owner bool_recordTime startTime duration
 		openFile = open(fileName, 'w')
 		openFile.write(str(len(self.lockerList)) + "\n")
 		for element in self.lockerList:
-			openFile.write(str(element.id) + " " + str(element.state) + " " + str(element.owner) + "\n")
+			openFile.write(str(element.id) + " " + str(element.state) + " " + str(element.owner) + " " + str(element.lockDuration) + " " + str(element.lockTime) + "\n")
 		openFile.close()
 
 	def getLockerInfo(self, fileName):
@@ -147,6 +153,8 @@ class LockerList:
 			self.lockerList[i].id = i
 			self.lockerList[i].state = int(line.split()[1])
 			self.lockerList[i].owner = int(line.split()[2])
+			self.lockerList[i].lockDuration = int(line.split()[3])
+			self.lockerList[i].lockTime = line.split()[4]
 		openFile.close()
 
 	def recordLog(self, fileName, lockerID, lockerOwner, action):

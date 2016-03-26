@@ -48,7 +48,7 @@ class ConsumptionScreen(Screen):
 class LockerScreen(Screen):
 	def clickLogin(self):
 		if lockerSys.currentUser == -1:
-			lockerSys.login(1)
+			lockerSys.login(0)
 		else:
 			lockerSys.login((lockerSys.currentUser+1)%6)
 		self.parent
@@ -92,12 +92,66 @@ class LockerAccessScreen(Screen):
 		return self.controlFlow(Input, output1, output2, output3)
 
 	def updateAll(self):
+		#update all locker background depending on user
 		tButtonArray = [] #tButton = toggleButton
 		for i in range(10):
 			tButtonArray.append("locker" + str(i+1))
 		for i in range(10):
 			tButton = self.ids[tButtonArray[i]]
 			tButton.background_color = self.backgroundState(int(tButton.text)-1)
+
+		#update all other info and buttons
+		if self.lockerIndex != -1:
+			#update labelName
+			self.ids.labelName.text = str(lockerSys.lockerList[self.lockerIndex].id + 1)
+			#update labelStatus text
+			Input = lockerSys.lockerState(self.lockerIndex)
+			output1 = 'Available'
+			output2 = 'Locked'
+			output3 = 'Owned'
+			self.ids.labelStatus.text = self.controlFlow(Input, output1, output2, output3)
+			#update labelStatus color
+			output1 = [0,0,1,1]
+			output2 = [1,0,0,1]
+			output3 = [0,1,0,1]
+			self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
+			#update labelTime
+			self.ids.labelTime.text = lockerSys.lockerList[self.lockerIndex].lockTime
+			#update action_button
+			if lockerSys.userTable.userList[lockerSys.userIndex].lockerCount < lockerSys.limit:
+				#update action_button text
+				output1 = 'Unlock'
+				output2 = 'Unavailable'
+				output3 = 'Unlock'
+				self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
+				#update action_button color
+				output1 = [0,0.2890625,0.484375,1.0]
+				output2 = [0.0,0.0,0.0,0.8]
+				output3 = [0,0.2890625,0.484375,1.0]
+				self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
+			else:
+				#update action_button text
+				output1 = 'Over locker limit!'
+				output2 = 'Unavailable'
+				output3 = 'Unlock'
+				self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
+				#update action_button color
+				output1 = [0.0,0.0,0.0,0.8]
+				output2 = [0.0,0.0,0.0,0.8]
+				output3 = [0,0.2890625,0.484375,1.0]
+				self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
+		else:
+			#update labelName
+			self.ids.labelName.text = 'N\A'
+			#update labelStatus text
+			self.ids.labelStatus.text = 'N\A'
+			#update labelStatus color
+			self.ids.labelStatus.color = [0.0,0.0,0.0,0.8]
+			#update labelTime
+			self.ids.labelTime.text = 'N\A'
+			#update action_button
+			self.ids.action_button.background_color = [0.0,0.0,0.0,0.8]
+			self.ids.action_button.text = 'Choose a locker!'
 			
 	def lockerClick(self, toggleButton, lockerID):
 		lockerSys.updateUserTable()
@@ -117,7 +171,7 @@ class LockerAccessScreen(Screen):
 		output3 = [0,1,0,1]
 		self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
 		#update labelTime
-		self.ids.labelTime.text = 'N\A'
+		self.ids.labelTime.text = lockerSys.lockerList[lockerID].lockTime
 		#update action_button
 		if lockerSys.userTable.userList[lockerSys.userIndex].lockerCount < lockerSys.limit:
 			#update action_button text
@@ -142,7 +196,6 @@ class LockerAccessScreen(Screen):
 			output3 = [0,0.2890625,0.484375,1.0]
 			self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
 		lockerSys.lockerList[lockerID].display()
-		self.locker = toggleButton
 
 	def actionClick(self):
 		if self.lockerIndex != -1:
@@ -150,10 +203,10 @@ class LockerAccessScreen(Screen):
 
 			#update locker info from 'locker' screen
 			self.manager.get_screen('locker').updateAll()
-
-			self.locker.background_color = self.backgroundState(self.lockerIndex)
-			Input = lockerSys.lockerState(self.lockerIndex)
+			#update locker background
+			self.ids['locker' + str(self.lockerIndex+1)].background_color = self.backgroundState(self.lockerIndex)
 			#update labelStatus text
+			Input = lockerSys.lockerState(self.lockerIndex)
 			output1 = 'Available'
 			output2 = 'Locked'
 			output3 = 'Owned'
@@ -163,7 +216,14 @@ class LockerAccessScreen(Screen):
 			output2 = [1,0,0,1]
 			output3 = [0,1,0,1]
 			self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
+			#update labelTime
+			self.ids.labelTime.text = lockerSys.lockerList[self.lockerIndex].lockTime
 
+	def logOut(self):
+		lockerSys.logout()
+		self.lockerIndex = -1
+		self.updateAll()
+		self.manager.current = 'locker'
 
 class AboutScreen(Screen):
 	pass
@@ -191,6 +251,7 @@ class SolarApp(App):
 		layout.add_widget(self.manager)
 		layout.add_widget(NavBar(id='my_root',name='root'))
 		Clock.schedule_interval(self.displayTime, 1)
+		Clock.schedule_interval(self.lockerDurationCount, 60)
 		return layout
 
 	#---clock function---#
@@ -210,6 +271,15 @@ class SolarApp(App):
 		self.manager.get_screen('lockerAccess').ids.clockTime.text = TimeStr
 		self.manager.get_screen('consumption').ids.clockTime.text = TimeStr
 		self.manager.get_screen('about').ids.clockTime.text = TimeStr
+
+	def lockerDurationCount(self, dt):
+		for element in lockerSys.lockerList:
+			if element.state == 1: 
+				element.lockDuration += 60 #add in 60 second everytime this is called
+				lockerSys.writeData(lockerSys.dataFile)
+				if element.lockDuration >= 3*60*60: #3hours duration
+					print("too long")
+			#if element.lockDuration%60 == 0: #record to file every minute
 #--- End App Builder ---#
 
 #--- Start the App --- #

@@ -189,17 +189,27 @@
 			color:0,0,0,1
 
 		Label: #Locker Usage Text
-			text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in purus vitae lacus lobortis hendrerit ac sit amet diam. Praesent interdum pellentesque nulla at luctus. Nullam molestie risus nulla, a tincidunt magna rutrum vitae. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin aliquet non est ac pulvinar. '
-			pos:350,110
+			text:'Use with care, do not litter! Your devices are safe here and will be charged. 2 lockers per person. This is subjected to change so take advantage of it now!!! Do not wait around! Tell your friends! This is revolution before your eyes. Do not wait! Do not hesitate! No Brakes!!!'
+			pos:350,150
 			text_size:210,None
-			font_size:13
+			font_size:12
 			color:0,0,0,.66
 
 		Button:
 			id: action_button
 			size:164,61
 			pos:60,70
-			background_color:(0,0.2890625,0.484375,1.0)
+			background_color:[0.0,0.0,0.0,0.8]
 			background_normal:''
-			text:'Unlock'
+			text:'Choose a locker!'
 			on_press:root.actionClick()
+
+		Button:
+			id: logout_button
+			size:164,61
+			pos:318,70
+			background_color:(0.8,0,0,1.0)
+			background_normal:''
+			text:'Log out!'
+			on_press:root.logOut()
+
