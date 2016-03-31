@@ -224,3 +224,11 @@ year-month-day hour-min-sec currentUser currentUserStatus lockerID lockerOwner a
 2016-03-25 17:33:10 0 0 1 -1 lock
 2016-03-25 17:33:15 0 0 1 0 unlock
 2016-03-25 17:33:16 0 0 0 0 unlock
+2016-03-27 19:00:34 0 0 0 -1 lock
+2016-03-27 19:00:35 0 0 1 -1 lock
+2016-03-27 19:00:43 1 0 2 -1 lock
+2016-03-27 19:00:44 1 0 7 -1 lock
+2016-03-27 19:00:49 1 0 2 1 unlock
+2016-03-27 19:00:51 1 0 7 1 unlock
+2016-03-27 19:01:00 0 0 0 0 unlock
+2016-03-27 19:01:01 0 0 1 0 unlock
