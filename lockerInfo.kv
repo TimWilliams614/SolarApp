@@ -20,7 +20,7 @@
 		Label:#clock
 			id:clockTime
 			text:""
-			pos:435,405
+			pos:440,405
 			color:1,1,1,1
 
 		Label: #Locker Header
@@ -60,12 +60,30 @@
 			pos:345,190
 			color:0.9,0.1,0.1,.83
 
+		TextInput:
+			id:text_userID
+			size:144,30
+			pos:200,135
+			multiline: False
+			text: "enter user's ID here"
+			focus: False
+			on_focus: self.select_all()
+			on_parent: self.focus = True
+
 		Button:
+			id:login_button
 			size:334,90
-			pos:105,87
+			pos:105,25
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			group: 'LockerScreen'
-			text: 'Wipe card to log in.'
-			font_size: 25
-			on_press:root.clickLogin()
+			text: 'ACCESS LOCKERS'
+			font_size: 18
+			on_press:root.clickLogin(text_userID.text)
+
+		Label: #display error
+			size:144,10
+			pos:200,10
+			font_size:10
+			color:1,0,0,1
+			text:root.checkLogin(text_userID.text)

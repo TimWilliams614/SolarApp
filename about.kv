@@ -1,10 +1,9 @@
 <AboutScreen>:
+	canvas.before:
+		Rectangle:
+			size:545,480
+			source: 'images/background.png'
 	canvas:
-		Color:
-			rgba:.2905,.6843,.911,1
-		Rectangle:#background
-			size:root.width,root.height
-			pos:0,0
 		Color:
 			rgba:1,1,1,1
 		Rectangle:
@@ -19,7 +18,7 @@
 		Label:#clock
 			id:clockTime
 			text:""
-			pos:435,405
+			pos:405,405
 			color:1,1,1,1
 		Label: #information
 			text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in purus vitae lacus lobortis hendrerit ac sit amet diam. Praesent interdum pellentesque nulla at luctus. Nullam molestie risus nulla, a tincidunt magna rutrum vitae. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin aliquet non est ac pulvinar. Nam aliquet nulla vitae diam euismod, non posuere mauris auctor. Mauris sagittis, dolor tincidunt posuere feugiat, felis risus luctus nisi, et porta enim metus at neque.'

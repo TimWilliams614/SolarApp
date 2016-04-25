@@ -1,5 +1,6 @@
 <LockerAccessScreen>
 	id:locker_screen
+
 	canvas:
     	Color:
     		rgba:.2905,.6843,.851,1
@@ -7,7 +8,7 @@
 			size:root.width,root.height
 			pos:0,0
 		Color:
-			rgba:.933,.933,.933,1
+			rgba:1,1,1,1
 		Rectangle: # locker list rect
 			size:501,125
 			pos:20,320
@@ -142,74 +143,81 @@
 			background_color:root.backgroundState(int(self.text)-1)
 			on_press:root.lockerClick(self, int(self.text)-1)
 
+		Label: #Loocker data Header
+			text:'Locker Data'
+			pos:90,235
+			font_size:22
+			color:0,0,0,1
+
 		Label: # Locker Info Header
 			text: 'Locker: '
-			pos:40,225
+			pos:40,200
 			font_size:20
-			color:0,0,0,1
+			color:0,0,0,.85
 
 		Label:#locker number data
 			id: labelName
 			text:'N/A'
-			pos:120,225
-			color:0.6,0.2,0,1
-			font_size:20
+			pos:120,200
+			color:0,0,0,.66
+			font_size:18
 
 		Label: #status header
 			text: 'Status:'
-			pos:35,175
+			pos:35,155
 			font_size:20
-			color:0,0,0,1
+			color:0,0,0,.85
 
 		Label: #status data
 			id:labelStatus
 			text:'N/A'
-			pos:120,175
-			font_size:20
+			pos:120,155
+			font_size:18
 			color:0,0,0,0.66
 		
 		Label:
 			text: 'Since: '
-			pos:34,125
+			pos:34,105
 			font_size:20
-			color:0,0,0,1
+			color:0,0,0,.85
 
 		Label: #since data
 			id:labelTime
 			text: 'N/A'
-			pos: 120,125
-			font_size:20
+			pos: 120,105
+			font_size:18
 			color:0,0,0,0.66
 
 		Label: #Locker Usage Header
 			text:'Locker Usage and Rules'
-			pos:358,225
+			pos:358,235
 			text_size:230,None
 			font_size:20
 			color:0,0,0,1
 
 		Label: #Locker Usage Text
 			text:'Use with care, do not litter! Your devices are safe here and will be charged. 2 lockers per person. This is subjected to change so take advantage of it now!!! Do not wait around! Tell your friends! This is revolution before your eyes. Do not wait! Do not hesitate! No Brakes!!!'
-			pos:350,150
+			pos:349,145
+			line_height:1.2
 			text_size:210,None
 			font_size:12
 			color:0,0,0,.66
 
 		Button:
 			id: action_button
-			size:164,61
-			pos:60,70
+			size:164,60
+			pos:60,55
 			background_color:[0.0,0.0,0.0,0.8]
 			background_normal:''
-			text:'Choose a locker!'
+			text:'Choose a Locker'
 			on_press:root.actionClick()
 
 		Button:
 			id: logout_button
-			size:164,61
-			pos:318,70
-			background_color:(0.8,0,0,1.0)
+			size:164,60
+			pos:318,55
+			background_color:(0.9,0.4,0.4,1.0)
 			background_normal:''
-			text:'Log out!'
+			text:'Log Out'
 			on_press:root.logOut()
 

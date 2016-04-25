@@ -1,4 +1,3 @@
-from termcolor import colored
 from .User2 import *
 from time import gmtime, strftime, localtime
 import os
@@ -11,7 +10,7 @@ class Locker:
 		self.id = ID
 		self.state = 0 #0 = available, 1 = locked
 		self.userTable = UserList()
-		self.owner = -1
+		self.owner = '-1'
 		self.lockTime = 'N\A'
 		self.lockDuration = 0
 		Locker.lockerCount += 1
@@ -25,7 +24,7 @@ class Locker:
 	def lock(self, userIndex):
 		self.updateUserTable()
 		self.state = 1
-		self.owner = int(self.userTable.userList[userIndex].cardID)
+		self.owner = self.userTable.userList[userIndex].cardID
 		#print(self.userTable.userList[userIndex].lockerCount)
 		self.userTable.userList[userIndex].lockerCount += 1
 		self.userTable.writeData(self.userTable.dataFile)
@@ -38,7 +37,7 @@ class Locker:
 			if element.cardID == str(self.owner):
 				element.lockerCount -= 1
 				break
-		self.owner = -1
+		self.owner = '-1'
 		self.userTable.writeData(self.userTable.dataFile)
 		self.lockDuration = 0
 		self.lockTime = 'N\A'
@@ -57,24 +56,24 @@ class LockerList:
 		self.getLockerInfo(self.dataFile)
 		#user-related variables
 		self.userTable = UserList()
-		self.currentUser = -1
+		self.currentUser = '-1'
 		self.userIndex = -1
 		self.userStatus = 0 #0 = normal user, 1 = super user
 		self.limit = 2 #max locker per user
 
 	def display(self):
-		print("\nuserID: ", self.currentUser, ", status: ", colored(self.userStatus, 'yellow'))
-		if self.currentUser != -1:
+		print("\nuserID: ", self.currentUser, ", status: ", self.userStatus, 'yellow')
+		if self.currentUser != '-1':
 			for element in self.lockerList:
 					if element.state == 1:
 						if element.owner == self.currentUser:
-							print("locker name: ", element.id, "owner: ", element.owner, colored(", state: owned", "green"))
+							print("locker name: ", element.id, "owner: ", element.owner, ", state: owned", "green")
 						else:
-							print("locker name: ", element.id, "owner: ", element.owner, colored(", state: locked", 'red'))
+							print("locker name: ", element.id, "owner: ", element.owner, ", state: locked", 'red')
 					else:
 						print("locker name: ", element.id, "owner: ", element.owner, ", state: available")
 		else:
-			print(colored("no display\n", 'red'))
+			print("no display\n", 'red')
 
 	def lockerState(self, lockerID): # this returns: 0 = available, 1 = locked, 2 = owned
 		state = self.lockerList[lockerID].state
@@ -87,16 +86,25 @@ class LockerList:
 		else:
 			return 0
 
-
-	def login(self, newUser): #use cardID to login so newUser is cardID
-		self.currentUser = int(newUser)
+	def checkLogin(self, newUser):
+		found = 0
 		i = 0
 		for element in self.userTable.userList:
+			self.userIndex = -1
 			if element.cardID == str(newUser):
-				self.userStatus = element.status
 				self.userIndex = i
+				found = 1
 				break
 			i += 1
+		return found
+
+	def login(self, newUser): #use cardID to login so newUser is cardID, return 1 if newUser is valid
+		if self.checkLogin(newUser) == 1:
+			self.currentUser = newUser
+			self.userStatus = self.userTable.userList[self.userIndex].status
+			return 1
+		else:
+			return 0
 
 	def logout(self):
 		self.currentUser = -1
@@ -122,14 +130,14 @@ class LockerList:
 					self.lockerList[lockerPosition].lock(i)
 					action = 'lock'
 				else:
-					print(colored('you are owning maximum amount of lockers', 'red'))
+					print('you are owning maximum amount of lockers', 'red')
 			else:
 				if self.lockerList[lockerPosition].owner == self.currentUser: #if locked locker is owned by user
 					self.lockerList[lockerPosition].unlock()
 					action = 'unlock'
 				else:
 					if self.userStatus != 1: #not a super user
-						print(colored('you cannot interact with this locker', 'red'))
+						print('you cannot interact with this locker', 'red')
 					else: #if it is super user
 						self.lockerList[lockerPosition].unlock()
 						action = 'super-unlock'
