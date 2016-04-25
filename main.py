@@ -11,6 +11,7 @@ from kivy.lang import Builder
 from kivy.config import Config
 from kivy.clock import Clock
 from kivy.uix.textinput import TextInput
+import serial
 
 from backend import LockerList
 from time import gmtime, strftime, localtime
@@ -37,10 +38,18 @@ Config.set('kivy', 'keyboard_mode','system')
 lockerSys = LockerList()
 #---end of initiation---#
 
+#--initiate pi to arduino connection--#
+#ser = serial.Serial('/dev/ttyAMC0', 9600)
+#---end of such---#
+
 #--- Widget/Screen Definitions Passed from KV file ---#
 class NavBar(Screen):
 	#make consumption button "untogglable" if on consumption page
 	def consPress(self,appManager):
+		if appManager == 'lockerAccess':
+			self.ids.consumption.state = 'normal'
+			self.ids.locker.state = 'down'
+			return appManager
 		if appManager != 'consumption':
 			self.ids.consumption.state = 'down'
 			return 'consumption'
@@ -57,19 +66,22 @@ class NavBar(Screen):
 			else: #prevent returning to 'loker' from locker list screen 
 				self.ids.locker.state = 'down'
 				return appManager
-		else: 
+		else:
 			self.ids.locker.state = 'down'
 			return appManager
 
 	#make about button "untogglable" if on locker page
 	def aboutPress(self,appManager):
+		if appManager == 'lockerAccess':
+			self.ids.about.state = 'normal'
+			self.ids.locker.state = 'down'
+			return appManager
 		if appManager != 'about':
 			self.ids.about.state = 'down'
 			return 'about'
 		else: 
 			self.ids.about.state = 'down'
 			return appManager
-	
 
 class IdleScreen(ButtonBehavior,Screen):
 	pass
@@ -89,6 +101,9 @@ class LockerScreen(Screen):
 			self.manager.get_screen('lockerAccess').updateAll()
 			self.manager.get_screen('lockerAccess').ids.labelUser.text = str(lockerSys.userTable.userList[lockerSys.userIndex].name)
 			self.manager.current = 'lockerAccess'
+		else:
+			lockerSys.userTable.addUser(userID)
+			self.clickLogin(userID) #recursive run
 
 	def updateAll(self):
 		self.ids.available_locker.text = self.availableCount() 
@@ -238,7 +253,9 @@ class LockerAccessScreen(Screen):
 
 	def actionClick(self):
 		if self.lockerIndex != -1:
-			lockerSys.chooseLocker(self.lockerIndex)
+			if lockerSys.chooseLocker(self.lockerIndex) == 1:
+				1
+				#ser.write(str(self.lockerIndex+1)) #send out the lockerID (lockerID starts at 1, not 0)
 
 			#update locker info from 'locker' screen
 			self.manager.get_screen('locker').updateAll()

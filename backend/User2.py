@@ -2,7 +2,7 @@ class User:
 	def __init__(self, cardID, UCMID):
 		self.cardID = cardID
 		self.UCMID = UCMID
-		self.name = ""
+		self.name = "N/A"
 		self.status = 0 #user status 0 = normal user, 1 = super user
 		self.lockerCount = 0
 
@@ -34,6 +34,16 @@ class UserList:
 		for element in self.userList:
 			openFile.write(str(element.cardID) + " " + str(element.UCMID) + " " + str(element.status) + " " + str(element.lockerCount) + " " + str(element.name) + "\n")
 		openFile.close()
+
+	def addUser(self, cardID):
+		if cardID != '':	
+			openFile = open(self.dataFile, 'a')
+			openFile.write(str(cardID) + " " + 'UCMID' + " " + str(0) + " " + str(0) + " " + 'name' + "\n")
+			openFile.close()
+
+			#add new user entry to the list
+			userTemp = User(str(cardID), 'UCMID')
+			self.userList.append(userTemp)
 
 	def display(self):
 		for element in self.userList:

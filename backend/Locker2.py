@@ -114,7 +114,7 @@ class LockerList:
 	def updateUserTable(self):
 		self.userTable.getUserInfo(self.userTable.dataFile)
 
-	def chooseLocker(self, lockerPosition):
+	def chooseLocker(self, lockerPosition): #0 = no chances (red), 1 = chances (other colors)
 		action = ''
 		lockerID = self.lockerList[lockerPosition].id
 		lockerOwner = self.lockerList[lockerPosition].owner
@@ -124,23 +124,29 @@ class LockerList:
 
 		if lockerPosition >= len(self.lockerList) or lockerPosition < 0 or self.currentUser == -1: #lockerPosition is invalid or currentUser is -1
 			print(colored("invalid",'red'))
+			return 0
 		else:
 			if self.lockerList[lockerPosition].state == 0: #if locker is available
 				if uL[i].lockerCount < self.limit: #if user locker count is below limit
 					self.lockerList[lockerPosition].lock(i)
 					action = 'lock'
+					return 1
 				else:
 					print('you are owning maximum amount of lockers', 'red')
+					return 0
 			else:
 				if self.lockerList[lockerPosition].owner == self.currentUser: #if locked locker is owned by user
 					self.lockerList[lockerPosition].unlock()
 					action = 'unlock'
+					return 1
 				else:
 					if self.userStatus != 1: #not a super user
 						print('you cannot interact with this locker', 'red')
+						return 0
 					else: #if it is super user
 						self.lockerList[lockerPosition].unlock()
 						action = 'super-unlock'
+						return 1
 			self.writeData(self.dataFile)
 			self.recordLog(self.logFile, lockerID, lockerOwner, action)
 

@@ -250,3 +250,5 @@ year-month-day hour-min-sec currentUser currentUserStatus lockerID lockerOwner a
 2016-04-03 11:37:41 0 0 6 0 unlock
 2016-04-03 16:15:34 1 0 0 -1 lock
 2016-04-03 16:15:35 1 0 1 -1 lock
+2016-04-24 21:06:39 2 1 1 1 super-unlock
+2016-04-24 21:06:40 2 1 0 1 super-unlock
