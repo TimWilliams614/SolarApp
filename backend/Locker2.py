@@ -62,24 +62,23 @@ class LockerList:
 		self.limit = 2 #max locker per user
 
 	def display(self):
-		print("\nuserID: ", self.currentUser, ", status: ", self.userStatus, 'yellow')
 		if self.currentUser != '-1':
 			for element in self.lockerList:
 					if element.state == 1:
 						if element.owner == self.currentUser:
-							print("locker name: ", element.id, "owner: ", element.owner, ", state: owned", "green")
+							print("locker name: " + element.id + "owner: "+ element.owner+ " state: owned")
 						else:
-							print("locker name: ", element.id, "owner: ", element.owner, ", state: locked", 'red')
+							print("locker name: "+ element.id + "owner: "+ element.owner+ ", state: locked")
 					else:
-						print("locker name: ", element.id, "owner: ", element.owner, ", state: available")
+						print("locker name: "+ element.id + "owner: "+ element.owner+ ", state: available")
 		else:
 			print("no display\n", 'red')
 
 	def lockerState(self, lockerID): # this returns: 0 = available, 1 = locked, 2 = owned
 		state = self.lockerList[lockerID].state
-		owner = self.lockerList[lockerID].owner
+		owner = str(self.lockerList[lockerID].owner)
 		if state == 1:
-			if owner == self.currentUser:
+			if owner == str(self.currentUser):
 				return 2
 			else:
 				return 1
@@ -117,38 +116,41 @@ class LockerList:
 	def chooseLocker(self, lockerPosition): #0 = no chances (red), 1 = chances (other colors)
 		action = ''
 		lockerID = self.lockerList[lockerPosition].id
-		lockerOwner = self.lockerList[lockerPosition].owner
+		lockerOwner = str(self.lockerList[lockerPosition].owner)
 		self.updateUserTable()
 		i = self.userIndex
 		uL = self.userTable.userList #uL = userList
+		returnBool = 0
 
 		if lockerPosition >= len(self.lockerList) or lockerPosition < 0 or self.currentUser == -1: #lockerPosition is invalid or currentUser is -1
 			print(colored("invalid",'red'))
-			return 0
+			returnBool = 0
+			return returnBool
 		else:
 			if self.lockerList[lockerPosition].state == 0: #if locker is available
 				if uL[i].lockerCount < self.limit: #if user locker count is below limit
 					self.lockerList[lockerPosition].lock(i)
 					action = 'lock'
-					return 1
+					returnBool = 1
 				else:
 					print('you are owning maximum amount of lockers', 'red')
-					return 0
+					returnBool = 0
 			else:
-				if self.lockerList[lockerPosition].owner == self.currentUser: #if locked locker is owned by user
+				if lockerOwner == str(self.currentUser): #if locked locker is owned by user
 					self.lockerList[lockerPosition].unlock()
 					action = 'unlock'
-					return 1
+					returnBool = 1
 				else:
 					if self.userStatus != 1: #not a super user
 						print('you cannot interact with this locker', 'red')
-						return 0
+						returnBool = 0
 					else: #if it is super user
 						self.lockerList[lockerPosition].unlock()
 						action = 'super-unlock'
-						return 1
+						returnBool = 1
 			self.writeData(self.dataFile)
 			self.recordLog(self.logFile, lockerID, lockerOwner, action)
+			return returnBool
 
 	def writeData(self, fileName):
 		#id state owner bool_recordTime startTime duration

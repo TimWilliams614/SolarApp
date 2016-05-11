@@ -1,9 +1,2 @@
-0 100 0 0 Lam Bui
-1 200 0 0 Tim Williams
-2 300 1 0 Kian Bradley
-3 400 0 0 Jesse Vick
-4 500 0 0 Greg Numez
-5 600 0 0 Juan De Simon
-500 UCMID 0 0 name
-600 UCMID 0 0 name
-700 UCMID 0 0 name
+17768 0 1
+17532 0 1

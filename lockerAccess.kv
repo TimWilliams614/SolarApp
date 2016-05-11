@@ -1,4 +1,5 @@
 <LockerAccessScreen>
+
 	id:locker_screen
 
 	canvas:
@@ -10,203 +11,154 @@
 		Color:
 			rgba:1,1,1,1
 		Rectangle: # locker list rect
-			size:501,125
-			pos:20,320
-		Color:
-			rgba:1,1,1,1
+			size:248,437
+			pos:16,18
 		Rectangle: #locker info rect
-			size:244,274
-			pos:20,35
+			size:248,200
+			pos:276,255
 		Rectangle: # 'How to use' rect
-			size:244,274
-			pos:278,35
+			size:248,225
+			pos:276,18
 
 	Widget:
 		id: main_widget
 		Label:#User number data
+			text:'CatID:'
+			pos:-10,415
+			color:1,1,1,1
+			
+		Label:#User number data
 			id: labelUser
 			text:'N/A'
-			pos:20,405
-			color:1,1,1,1
-
-		Label:#locker list header
-			text:'LOCKER LIST'
-			pos:225,405
+			pos:30,415
 			color:1,1,1,1
 
 		Label:#clock
 			id:clockTime
 			text:""
-			pos:435,405
+			pos:435,415
 			color:1,1,1,1
+
+		Label:#locker list header
+			text:'Locker List'
+			pos:90,380
+			font_size:22
+			color:0,0,0,1
+
+		#:set startX 32
+		#:set startX2 148
+		#:set startY 290
+		#:set increment 125
+		#:set lockerID_fontSize 45
 
 		#-- first locker row-- #
 		ToggleButton: #locker 1
 			id: locker1
-			size:83,40
-			pos:30,390
+			size:213,110
+			pos:startX,startY
 			group:'lockerList'
 			background_normal:''
+			background_down:'assets/grey.png'
 			text:'1'
+			font_size:lockerID_fontSize
 			background_color:root.backgroundState(int(self.text)-1)
 			on_press:root.lockerClick(self, int(self.text)-1)
+
 		
 		ToggleButton: #locker 2
 			id: locker2
-			size:83,40
-			pos:131,390
+			size:213,110
+			pos:startX,startY-increment
 			group:'lockerList'
 			background_normal:''
+			background_down:'assets/grey.png'
 			text:'2'
+			font_size:lockerID_fontSize
 			background_color:root.backgroundState(int(self.text)-1)
 			on_press:root.lockerClick(self, int(self.text)-1)
-			
+
 		ToggleButton: #locker 3
 			id: locker3
-			size:83,40
-			pos:231,390
+			size:213,110
+			pos:startX,startY-increment*2
 			group:'lockerList'
 			background_normal:''
+			background_down:'assets/grey.png'
 			text:'3'
-			background_color:root.backgroundState(int(self.text)-1)
-			on_press:root.lockerClick(self, int(self.text)-1)
-		
-		ToggleButton: #locker 4
-			id: locker4
-			size:83,40
-			pos:329,390
-			group:'lockerList'
-			background_normal:''
-			text:'4'
-			background_color:root.backgroundState(int(self.text)-1)
-			on_press:root.lockerClick(self, int(self.text)-1)
-		
-		ToggleButton: #locker 5
-			id: locker5
-			size:83,40
-			pos:424,390
-			group:'lockerList'
-			background_normal:''
-			text:'5'
-			background_color:root.backgroundState(int(self.text)-1)
-			on_press:root.lockerClick(self, int(self.text)-1)
-		#-- end of first row --#
-
-		#-- Second Locker Row -- #
-		ToggleButton: #locker 6
-			id: locker6
-			size:83,40
-			pos:30,340
-			group:'lockerList'
-			background_normal:''
-			text:'6'
-			background_color:root.backgroundState(int(self.text)-1)
-			on_press:root.lockerClick(self, int(self.text)-1)
-
-		ToggleButton: #locker 7
-			id: locker7
-			size:83,40
-			pos:131,340
-			group:'lockerList'
-			background_normal:''
-			text:'7'
-			background_color:root.backgroundState(int(self.text)-1)
-			on_press:root.lockerClick(self, int(self.text)-1)
-		
-		ToggleButton: #locker 8
-			id: locker8
-			size:83,40
-			pos:231,340
-			group:'lockerList'
-			background_normal:''
-			text:'8'
-			background_color:root.backgroundState(int(self.text)-1)
-			on_press:root.lockerClick(self, int(self.text)-1)
-		
-		ToggleButton: #locker 9
-			id: locker9
-			size:83,40
-			pos:329,340
-			group:'lockerList'
-			background_normal:''
-			text:'9'
-			background_color:root.backgroundState(int(self.text)-1)
-			on_press:root.lockerClick(self, int(self.text)-1)
-		
-		ToggleButton: #locker 10
-			id: locker10
-			size:83,40
-			pos:424,340
-			group:'lockerList'
-			background_normal:''
-			text:'10'
+			font_size:lockerID_fontSize
 			background_color:root.backgroundState(int(self.text)-1)
 			on_press:root.lockerClick(self, int(self.text)-1)
 
 		Label: #Loocker data Header
 			text:'Locker Data'
-			pos:90,235
+			pos:344,380
 			font_size:22
 			color:0,0,0,1
 
 		Label: # Locker Info Header
 			text: 'Locker: '
-			pos:40,200
+			pos:310,345
 			font_size:20
 			color:0,0,0,.85
 
 		Label:#locker number data
 			id: labelName
 			text:'N/A'
-			pos:120,200
+			pos:385,343
 			color:0,0,0,.66
 			font_size:18
 
 		Label: #status header
 			text: 'Status:'
-			pos:35,155
+			pos:305,312
 			font_size:20
 			color:0,0,0,.85
 
 		Label: #status data
 			id:labelStatus
 			text:'N/A'
-			pos:120,155
+			pos:385,312
 			font_size:18
 			color:0,0,0,0.66
 		
 		Label:
 			text: 'Since: '
-			pos:34,105
+			pos:302,280
 			font_size:20
 			color:0,0,0,.85
 
 		Label: #since data
 			id:labelTime
 			text: 'N/A'
-			pos: 120,105
+			pos: 385,278
 			font_size:18
 			color:0,0,0,0.66
 
 		Label: #Locker Usage Header
-			text:'Locker Usage and Rules'
-			pos:358,235
+			text:'Locker Usage'
+			pos:403,173
 			text_size:230,None
 			font_size:20
 			color:0,0,0,1
 
-		Label: #Locker Usage Text
-			text:'Use with care, do not litter! Your devices are safe here and will be charged. 2 lockers per person. This is subjected to change so take advantage of it now!!! Do not wait around! Tell your friends! This is revolution before your eyes. Do not wait! Do not hesitate! No Brakes!!!'
-			pos:349,145
-			line_height:1.2
-			text_size:210,None
-			font_size:12
-			color:0,0,0,.66
+		Label: #Locker Usage Header
+			text:'Select lockers by clicking on them.\nClick action button above to perform desired action to selected locker.'
+			pos:360,135
+			text_size:230,None
+			font_size:13
+			color:0,0,0,1
+			
+		Image:
+			size:160, 60
+			pos:282,95
+			source: 'assets/legend.png'
+			allow_stretch: True
+			keep_ratio: True
 
 		Button:
 			id: action_button
-			size:164,60
-			pos:60,55
+			size:150,50
+			pos:325,264
 			background_color:[0.0,0.0,0.0,0.8]
 			background_normal:''
 			text:'Choose a Locker'
@@ -214,8 +166,8 @@
 
 		Button:
 			id: logout_button
-			size:164,60
-			pos:318,55
+			size:154,50
+			pos:325,40
 			background_color:(0.9,0.4,0.4,1.0)
 			background_normal:''
 			text:'Log Out'

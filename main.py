@@ -10,8 +10,8 @@ from kivy.graphics import *
 from kivy.lang import Builder
 from kivy.config import Config
 from kivy.clock import Clock
-from kivy.uix.textinput import TextInput
 import serial
+import time
 
 from backend import LockerList
 from time import gmtime, strftime, localtime
@@ -31,33 +31,26 @@ Config.set('graphics','borderless','1') #removes border decoration
 Config.set('graphics','height','480') #static height due to tablet constraints
 Config.set('graphics','width','800') #static width due to tablet constraints
 Config.set('graphics','resizable','0') #Make unresizable so user can't resize or move whole window
-Config.set('kivy', 'keyboard_mode','system')
 #---End of Configuration---#
 
 #---initiate back end---#
 lockerSys = LockerList()
 #---end of initiation---#
+#ser = serial.Serial('/dev/ttyACM0',9600)
 
-#--initiate pi to arduino connection--#
-#ser = serial.Serial('/dev/ttyAMC0', 9600)
-#---end of such---#
+#color variables
+blue = [0,0.3,0.5,1.0]
+red = [1,0.3,0.3,1.0]
+green = [0.545,0.812,0.353,1.0]
+black = [0,0,0,0.8]
+#end of color#
+
+#shit
+
 
 #--- Widget/Screen Definitions Passed from KV file ---#
 class NavBar(Screen):
-	#make consumption button "untogglable" if on consumption page
-	def consPress(self,appManager):
-		if appManager == 'lockerAccess':
-			self.ids.consumption.state = 'normal'
-			self.ids.locker.state = 'down'
-			return appManager
-		if appManager != 'consumption':
-			self.ids.consumption.state = 'down'
-			return 'consumption'
-		else: 
-			self.ids.consumption.state = 'down'
-			return appManager
-
-	#make locker button "unogglable" if on locker page
+#make locker button "unogglable" if on locker page
 	def lockPress(self,appManager):
 		if appManager != 'locker':
 			if appManager != 'lockerAccess':
@@ -72,10 +65,6 @@ class NavBar(Screen):
 
 	#make about button "untogglable" if on locker page
 	def aboutPress(self,appManager):
-		if appManager == 'lockerAccess':
-			self.ids.about.state = 'normal'
-			self.ids.locker.state = 'down'
-			return appManager
 		if appManager != 'about':
 			self.ids.about.state = 'down'
 			return 'about'
@@ -91,20 +80,19 @@ class ConsumptionScreen(Screen):
 
 class LockerScreen(Screen):
 	def checkLogin(self, userID):
-		if lockerSys.checkLogin(userID) == 1:
-			return ""
-		else:
-			return "invalid input"
+		if len(userID) == 5:
+			self.clickLogin(userID)
+		return ""
 
-	def clickLogin(self, userID):
+	def clickLogin(self,userID):
 		if lockerSys.login(userID) == 1:
 			self.manager.get_screen('lockerAccess').updateAll()
-			self.manager.get_screen('lockerAccess').ids.labelUser.text = str(lockerSys.userTable.userList[lockerSys.userIndex].name)
+			self.manager.get_screen('lockerAccess').ids.labelUser.text = str(lockerSys.userTable.userList[lockerSys.userIndex].cardID)
 			self.manager.current = 'lockerAccess'
 		else:
 			lockerSys.userTable.addUser(userID)
 			self.clickLogin(userID) #recursive run
-
+			
 	def updateAll(self):
 		self.ids.available_locker.text = self.availableCount() 
 		self.ids.unavailable_locker.text = self.unavailableCount()
@@ -120,7 +108,6 @@ class LockerScreen(Screen):
 			if element.state == 1: count += 1
 		return str(count)
 
-
 class LockerAccessScreen(Screen):
 	#lockerSys = LockerList()
 	lockerIndex = -1
@@ -135,17 +122,17 @@ class LockerAccessScreen(Screen):
 
 	def backgroundState(self, lockerID):
 		Input = lockerSys.lockerState(lockerID)
-		output1 = [0,0.2890625,0.484375,1.0]#available color
-		output2 = [0.878,0.4,0.4,1.0] #locked color
-		output3 = [0.576,0.768,.490,1.0] #owned color
+		output1 = blue #available color
+		output2 = red #locked color
+		output3 = green #owned color
 		return self.controlFlow(Input, output1, output2, output3)
 
 	def updateAll(self):
 		#update all locker background depending on user
 		tButtonArray = [] #tButton = toggleButton
-		for i in range(10):
+		for i in range(3):
 			tButtonArray.append("locker" + str(i+1))
-		for i in range(10):
+		for i in range(3):
 			tButton = self.ids[tButtonArray[i]]
 			tButton.background_color = self.backgroundState(int(tButton.text)-1)
 
@@ -162,9 +149,9 @@ class LockerAccessScreen(Screen):
 			self.ids.labelStatus.text = self.controlFlow(Input, output1, output2, output3)
 
 			#update labelStatus color
-			output1 = [0,0.2890625,0.484375,1.0]#available color
-			output2 = [0.878,0.4,0.4,1.0] #locked color
-			output3 = [0.576,0.768,.490,1.0] #owned color
+			output1 = blue #available color
+			output2 = red #locked color
+			output3 = green #owned color
 			self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
 
 			#update labelTime
@@ -179,9 +166,9 @@ class LockerAccessScreen(Screen):
 				self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
 
 				#update action_button color
-				output1 = [0,0.2890625,0.484375,1.0]
-				output2 = [0.0,0.0,0.0,0.8]
-				output3 = [0,0.2890625,0.484375,1.0]
+				output1 = blue
+				output2 = black
+				output3 = blue
 				self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
 			else:
 				#update action_button text
@@ -190,9 +177,9 @@ class LockerAccessScreen(Screen):
 				output3 = 'Unlock'
 				self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
 				#update action_button color
-				output1 = [0.0,0.0,0.0,0.8]
-				output2 = [0.0,0.0,0.0,0.8]
-				output3 = [0,0.2890625,0.484375,1.0]
+				output1 = black
+				output2 = black
+				output3 = blue
 				self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
 		else:
 			#update labelName
@@ -200,14 +187,18 @@ class LockerAccessScreen(Screen):
 			#update labelStatus text
 			self.ids.labelStatus.text = 'N\A'
 			#update labelStatus color
-			self.ids.labelStatus.color = [0.0,0.0,0.0,0.8]
+			self.ids.labelStatus.color = black
 			#update labelTime
 			self.ids.labelTime.text = 'N\A'
 			#update action_button
-			self.ids.action_button.background_color = [0.0,0.0,0.0,0.8]
+			self.ids.action_button.background_color = black
 			self.ids.action_button.text = 'Choose a Locker'
 			
 	def lockerClick(self, toggleButton, lockerID):
+		#prevent untoggle if click twice on 'down' button
+		if toggleButton.state == 'normal':
+			self.ids['locker' + str(lockerID+1)].state = 'down'
+			
 		lockerSys.updateUserTable()
 		self.lockerIndex = lockerID
 		self.updateAll()
@@ -220,9 +211,9 @@ class LockerAccessScreen(Screen):
 		output3 = 'Owned'
 		self.ids.labelStatus.text = self.controlFlow(Input, output1, output2, output3)
 		#update labelStatus color
-		output1 = [0,0,1,1]
-		output2 = [1,0,0,1]
-		output3 = [0,1,0,1]
+		output1 = blue
+		output2 = red
+		output3 = green
 		self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
 		#update labelTime
 		self.ids.labelTime.text = lockerSys.lockerList[lockerID].lockTime
@@ -234,9 +225,9 @@ class LockerAccessScreen(Screen):
 			output3 = 'Unlock'
 			self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
 			#update action_button color
-			output1 = [0,0.2890625,0.484375,1.0]
-			output2 = [0.0,0.0,0.0,0.8]
-			output3 = [0,0.2890625,0.484375,1.0]
+			output1 = blue
+			output2 = black
+			output3 = blue
 			self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
 		else:
 			#update action_button text
@@ -245,17 +236,17 @@ class LockerAccessScreen(Screen):
 			output3 = 'Unlock'
 			self.ids.action_button.text = self.controlFlow(Input, output1, output2, output3)
 			#update action_button color
-			output1 = [0.0,0.0,0.0,0.8]
-			output2 = [0.0,0.0,0.0,0.8]
-			output3 = [0,0.2890625,0.484375,1.0]
+			output1 = black
+			output2 = black
+			output3 = blue
 			self.ids.action_button.background_color = self.controlFlow(Input, output1, output2, output3)
 		lockerSys.lockerList[lockerID].display()
 
 	def actionClick(self):
 		if self.lockerIndex != -1:
 			if lockerSys.chooseLocker(self.lockerIndex) == 1:
-				1
-				#ser.write(str(self.lockerIndex+1)) #send out the lockerID (lockerID starts at 1, not 0)
+				pass
+            	#ser.write(str(self.lockerIndex+1))
 
 			#update locker info from 'locker' screen
 			self.manager.get_screen('locker').updateAll()
@@ -268,17 +259,24 @@ class LockerAccessScreen(Screen):
 			output3 = 'Owned'
 			self.ids.labelStatus.text = self.controlFlow(Input, output1, output2, output3)
 			#update labelStatus color
-			output1 = [0,0,1,1]
-			output2 = [1,0,0,1]
-			output3 = [0,1,0,1]
+			output1 = blue
+			output2 = red
+			output3 = green
 			self.ids.labelStatus.color = self.controlFlow(Input, output1, output2, output3)
 			#update labelTime
 			self.ids.labelTime.text = lockerSys.lockerList[self.lockerIndex].lockTime
-
+			time.sleep(0.5)
+			
 	def logOut(self):
 		lockerSys.logout()
+		
+		#unselect all lockers
+		for element in lockerSys.lockerList:
+			self.ids['locker' + str(element.id+1)].state = 'normal'
+
 		self.lockerIndex = -1
 		self.updateAll()
+		self.manager.get_screen('locker').ids.text_userID.text = ""
 		self.manager.current = 'locker'
 
 class AboutScreen(Screen):
@@ -295,18 +293,24 @@ class SolarApp(App):
 		self.manager.add_widget(ConsumptionScreen(name='consumption'))
 		self.manager.add_widget(AboutScreen(name='about'))
 		#self.manager.current = 'lockerAccess'
-		self.manager.current = 'consumption'
+		self.manager.current='locker'
 
 		layout = FloatLayout(size=(800,480)) #float layout to handle manager and navbar
 		layout.add_widget(self.manager)
 		layout.add_widget(NavBar(id='my_root',name='root'))
 		Clock.schedule_interval(self.displayTime, 1)
+		Clock.schedule_interval(self.resetTextInput, 0.5)
 		Clock.schedule_interval(self.lockerDurationCount, 60)
 		return layout
 
 	#---clock function---#
-
 	#show current time in format 24-hour:min:sec
+
+	def resetTextInput(self, dt):
+		if self.manager.current == 'locker':
+			self.manager.get_screen('locker').ids.text_userID.text = ""
+			self.manager.get_screen('locker').ids.text_userID.focus = True
+
 	def displayTime(self, dt):
 		AM_PM = ''
 		hour = strftime("%H", localtime())

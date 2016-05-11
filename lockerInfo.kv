@@ -61,25 +61,22 @@
 			color:0.9,0.1,0.1,.83
 
 		TextInput:
-			id:text_userID
+			id: text_userID
 			size:144,30
-			pos:200,135
+			pos:3000,135
 			multiline: False
 			text: ""
-			focus: False
-			on_focus: self.select_all()
-			on_parent: self.focus = True
+			focus: True
 
 		Button:
 			id:login_button
 			size:334,90
-			pos:105,25
+			pos:105,45
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			group: 'LockerScreen'
-			text: 'ACCESS LOCKERS'
+			text: 'Wipe your Catcard!'
 			font_size: 18
-			on_press:root.clickLogin(text_userID.text)
 
 		Label: #display error
 			size:144,10

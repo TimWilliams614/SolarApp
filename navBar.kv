@@ -8,22 +8,11 @@
 				size:255,480
 				pos:545,0
 
-		#consumption button
-		ToggleButton: 
-			id: consumption
-			size:255,63
-			pos:545,398
-			group: 'mainmenu'
-			state: 'down'
-			text: 'CONSUMPTION'
-			background_color:(0,0.2890625,0.484375,1.0)
-			background_normal:''
-			on_press: app.manager.current = root.consPress(app.manager.current)
 		#locker button
 		ToggleButton:
 			id: locker
-			size:255,63
-			pos:545,331
+			size:255,80
+			pos:545,380
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			group: 'mainmenu'
@@ -33,8 +22,8 @@
 		#about button
 		ToggleButton:
 			id: about
-			size:255,63
-			pos:545,263
+			size:255,80
+			pos:545,290
 			background_color:(0,0.2890625,0.484375,1.0)
 			background_normal:''
 			group: 'mainmenu'
